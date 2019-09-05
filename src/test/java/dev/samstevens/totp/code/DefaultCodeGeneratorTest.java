@@ -13,7 +13,7 @@ public class DefaultCodeGeneratorTest {
         int time = 1567631536;
         String code = generateCode(secret, time);
 
-        assertEquals("621695", code);
+        assertEquals("870366", code);
     }
 
     private String generateCode(String secret, int time) throws CodeGenerationException {
