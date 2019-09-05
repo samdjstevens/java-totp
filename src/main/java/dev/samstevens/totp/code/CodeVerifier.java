@@ -1,5 +1,5 @@
 package dev.samstevens.totp.code;
 
-interface CodeVerifier {
+public interface CodeVerifier {
     boolean isValidCode(String secret, String code);
 }
