@@ -16,8 +16,8 @@ public class DefaultSecretGenerator implements SecretGenerator {
 
     @SuppressWarnings("WeakerAccess")
     public DefaultSecretGenerator(int numberOfBits) {
-        if ((numberOfBits % 8) != 0) {
-            throw new IllegalArgumentException("Number of bits must be divisible by 8, try 80 or 160.");
+        if ((numberOfBits % 40) != 0) {
+            throw new IllegalArgumentException("Number of bits must be divisible by 40, try 80 or 160.");
         }
         this.numberOfBits = numberOfBits;
     }
