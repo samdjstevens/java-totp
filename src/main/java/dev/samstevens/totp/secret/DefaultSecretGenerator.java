@@ -9,11 +9,16 @@ public class DefaultSecretGenerator implements SecretGenerator {
     private Base32 encoder = new Base32();
     private final int numberOfBits;
 
+    @SuppressWarnings("WeakerAccess")
     public DefaultSecretGenerator() {
         this.numberOfBits = 160;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public DefaultSecretGenerator(int numberOfBits) {
+        if ((numberOfBits % 8) != 0) {
+            throw new IllegalArgumentException("Number of bits must be divisible by 8, try 80 or 160.");
+        }
         this.numberOfBits = numberOfBits;
     }
 

@@ -7,8 +7,14 @@ public class DefaultCodeVerifier implements CodeVerifier {
 
     private CodeGenerator codeGenerator;
 
+    @SuppressWarnings("WeakerAccess")
     public DefaultCodeVerifier(CodeGenerator codeGenerator) {
         this.codeGenerator = codeGenerator;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public DefaultCodeVerifier() {
+        this.codeGenerator = new DefaultCodeGenerator();
     }
 
     @Override
