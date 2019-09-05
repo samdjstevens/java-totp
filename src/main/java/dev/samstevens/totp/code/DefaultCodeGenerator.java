@@ -57,6 +57,7 @@ class DefaultCodeGenerator implements CodeGenerator {
         truncatedHash &= 0x7FFFFFFF;
         truncatedHash %= 1000000;
 
-        return String.valueOf(truncatedHash);
+        // Left pad with 0s for a 6 digit code
+        return String.format("%06d", truncatedHash);
     }
 }
