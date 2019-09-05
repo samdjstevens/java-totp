@@ -5,8 +5,8 @@ import java.security.SecureRandom;
 
 public class DefaultSecretGenerator implements SecretGenerator {
 
-    private SecureRandom randomBytes = new SecureRandom();
-    private Base32 encoder = new Base32();
+    private final SecureRandom randomBytes = new SecureRandom();
+    private final static Base32 encoder = new Base32();
     private final int numberOfBits;
 
     @SuppressWarnings("WeakerAccess")
