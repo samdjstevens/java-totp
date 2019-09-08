@@ -1,27 +1,33 @@
 package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
+import dev.samstevens.totp.time.SystemTimeProvider;
+import dev.samstevens.totp.time.TimeProvider;
+
 import java.time.Instant;
 
 public class DefaultCodeVerifier implements CodeVerifier {
 
     private CodeGenerator codeGenerator;
+    private TimeProvider timeProvider;
 
     @SuppressWarnings("WeakerAccess")
-    public DefaultCodeVerifier(CodeGenerator codeGenerator) {
+    public DefaultCodeVerifier(CodeGenerator codeGenerator, TimeProvider timeProvider) {
         this.codeGenerator = codeGenerator;
+        this.timeProvider = timeProvider;
     }
 
     @SuppressWarnings("WeakerAccess")
     public DefaultCodeVerifier() {
         this.codeGenerator = new DefaultCodeGenerator();
+        this.timeProvider = new SystemTimeProvider();
     }
 
     @Override
     public boolean isValidCode(String secret, String code) {
         // Get the current number of seconds since the epoch and
         // calculate the number of 30 second buckets passed.
-        long currentBucket = Math.floorDiv(getCurrentTime(), 30L);
+        long currentBucket = Math.floorDiv(timeProvider.getTime(), 30L);
 
         // Calculate and compare the codes for the previous, current, and next time
         // buckets, comparing all 3 to avoid timing attacks
@@ -31,14 +37,6 @@ public class DefaultCodeVerifier implements CodeVerifier {
         }
 
         return success;
-    }
-
-    /**
-     * Get the number of seconds since Jan 1st 1970, 00:00:00.
-     * Used to determine the counter values to check.
-     */
-    private long getCurrentTime() {
-        return Instant.now().getEpochSecond();
     }
 
     /**

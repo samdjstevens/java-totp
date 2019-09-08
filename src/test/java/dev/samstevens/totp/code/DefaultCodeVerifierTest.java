@@ -1,5 +1,6 @@
 package dev.samstevens.totp.code;
 
+import dev.samstevens.totp.time.DummyTimeProvider;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -7,16 +8,11 @@ public class DefaultCodeVerifierTest {
 
     @Test
     public void testCodeIsValid() {
+        String secret = "EX47GINFPBK5GNLYLILGD2H6ZLGJNNWB";
+        long timeToRunAt = 1567975936;
+        String correctCode = "862707";
 
-        String secret = "W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY";
-
-
-        CodeVerifier v = new DefaultCodeVerifier(new DefaultCodeGenerator());
-
-        String code = "82371";
-        boolean result = v.isValidCode(secret, code);
-
-        assertTrue(result);
+        CodeVerifier verifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), new DummyTimeProvider(timeToRunAt));
+        assertTrue(verifier.isValidCode(secret, correctCode));
     }
-
 }
