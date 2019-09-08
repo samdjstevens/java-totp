@@ -22,6 +22,7 @@ public class DefaultSecretGenerator implements SecretGenerator {
         this.numberOfBits = numberOfBits;
     }
 
+    @Override
     public String generate() {
         return new String(encoder.encode(getRandomBytes()));
     }

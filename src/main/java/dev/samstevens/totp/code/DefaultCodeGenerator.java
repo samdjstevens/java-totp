@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 
 class DefaultCodeGenerator implements CodeGenerator {
 
+    @Override
     public String generate(String key, long counter) throws CodeGenerationException {
         try {
             byte[] hash = generateHash(key, counter);
