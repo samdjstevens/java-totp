@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class ZxingPngQrGenerator implements QrGenerator {
 
-    private static QRCodeWriter writer = new QRCodeWriter();
+    private static final QRCodeWriter writer = new QRCodeWriter();
 
     @Override
     public byte[] generate(QrData data) throws QrGenerationException {

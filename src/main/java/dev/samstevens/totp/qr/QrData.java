@@ -6,13 +6,13 @@ import java.net.URLEncoder;
 @SuppressWarnings("WeakerAccess")
 public class QrData {
 
-    private String type;
-    private String label;
-    private String secret;
-    private String issuer;
-    private String algorithm;
-    private int digits;
-    private int period;
+    private final String type;
+    private final String label;
+    private final String secret;
+    private final String issuer;
+    private final String algorithm;
+    private final int digits;
+    private final int period;
 
     /**
      * Force use of builder to create instances.
