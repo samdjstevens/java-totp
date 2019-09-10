@@ -3,23 +3,22 @@ package dev.samstevens.totp.secret;
 import org.apache.commons.codec.binary.Base32;
 import java.security.SecureRandom;
 
+@SuppressWarnings("WeakerAccess")
 public class DefaultSecretGenerator implements SecretGenerator {
 
     private final SecureRandom randomBytes = new SecureRandom();
     private final static Base32 encoder = new Base32();
-    private final int numberOfBits;
+    private final int numCharacters;
 
-    @SuppressWarnings("WeakerAccess")
     public DefaultSecretGenerator() {
-        this.numberOfBits = 160;
+        this.numCharacters = 32;
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public DefaultSecretGenerator(int numberOfBits) {
-        if ((numberOfBits % 40) != 0) {
-            throw new IllegalArgumentException("Number of bits must be divisible by 40, try 80 or 160.");
-        }
-        this.numberOfBits = numberOfBits;
+    /**
+     * @param numCharacters The number of characters the secret should consist of.
+     */
+    public DefaultSecretGenerator(int numCharacters) {
+        this.numCharacters = numCharacters;
     }
 
     @Override
@@ -28,7 +27,8 @@ public class DefaultSecretGenerator implements SecretGenerator {
     }
 
     private byte[] getRandomBytes() {
-        byte[] bytes = new byte[numberOfBits / 8];
+        // 5 bytes per char in base32
+        byte[] bytes = new byte[(numCharacters * 5) / 8];
         randomBytes.nextBytes(bytes);
 
         return bytes;
