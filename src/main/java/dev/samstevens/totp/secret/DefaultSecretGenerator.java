@@ -27,7 +27,7 @@ public class DefaultSecretGenerator implements SecretGenerator {
     }
 
     private byte[] getRandomBytes() {
-        // 5 bytes per char in base32
+        // 5 bits per char in base32
         byte[] bytes = new byte[(numCharacters * 5) / 8];
         randomBytes.nextBytes(bytes);
 
