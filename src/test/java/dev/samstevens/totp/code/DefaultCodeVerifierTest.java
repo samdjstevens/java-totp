@@ -13,10 +13,21 @@ public class DefaultCodeVerifierTest {
         long timeToRunAt = 1567975936;
         String correctCode = "862707";
 
-        TimeProvider frozenTimeProvider = mock(TimeProvider.class);
-        when(frozenTimeProvider.getTime()).thenReturn(timeToRunAt);
+        // allow for a -/+ ~30 second discrepancy
+        assertTrue(isValidCode(secret, correctCode, timeToRunAt - 30));
+        assertTrue(isValidCode(secret, correctCode, timeToRunAt));
+        assertTrue(isValidCode(secret, correctCode, timeToRunAt + 30));
 
-        CodeVerifier verifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), frozenTimeProvider);
-        assertTrue(verifier.isValidCode(secret, correctCode));
+        // but no more
+        assertFalse(isValidCode(secret, correctCode, timeToRunAt + 45));
+    }
+
+    private boolean isValidCode(String secret, String code, long time) {
+        TimeProvider timeProvider = mock(TimeProvider.class);
+        when(timeProvider.getTime()).thenReturn(time);
+
+        CodeVerifier verifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), timeProvider);
+
+        return verifier.isValidCode(secret, code);
     }
 }
