@@ -44,6 +44,11 @@ public class QrData {
     }
 
     private String uriEncode(String text)  {
+        // Null check
+        if (text == null) {
+            return "";
+        }
+
         try {
             return URLEncoder.encode(text, StandardCharsets.UTF_8.toString()).replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException e) {
@@ -91,7 +96,6 @@ public class QrData {
         }
 
         public QrData build() {
-            // @todo: add checks for required fields before building
             return new QrData("totp", label, secret, issuer, algorithm, digits, period);
         }
     }
