@@ -1,8 +1,9 @@
 package dev.samstevens.totp.code;
 
-import dev.samstevens.totp.time.DummyTimeProvider;
+import dev.samstevens.totp.time.TimeProvider;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class DefaultCodeVerifierTest {
 
@@ -12,7 +13,10 @@ public class DefaultCodeVerifierTest {
         long timeToRunAt = 1567975936;
         String correctCode = "862707";
 
-        CodeVerifier verifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), new DummyTimeProvider(timeToRunAt));
+        TimeProvider frozenTimeProvider = mock(TimeProvider.class);
+        when(frozenTimeProvider.getTime()).thenReturn(timeToRunAt);
+
+        CodeVerifier verifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), frozenTimeProvider);
         assertTrue(verifier.isValidCode(secret, correctCode));
     }
 }
