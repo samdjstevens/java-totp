@@ -2,6 +2,7 @@ package dev.samstevens.totp.qr;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings("WeakerAccess")
 public class QrData {
@@ -28,10 +29,10 @@ public class QrData {
     }
 
     /**
-     * Get the URI/message to encode into the QR image.
-     * This is the format specified here: https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+     * @return The URI/message to encode into the QR image, in the format specified here:
+     * https://github.com/google/google-authenticator/wiki/Key-Uri-Format
      */
-    public String getUri() throws UnsupportedEncodingException {
+    public String getUri() {
         return "otpauth://" +
                 uriEncode(type) + "/" +
                 uriEncode(label) + "?" +
@@ -42,8 +43,13 @@ public class QrData {
                 "&period=" + period;
     }
 
-    private String uriEncode(String text) throws UnsupportedEncodingException {
-        return URLEncoder.encode(text, "UTF-8").replaceAll("\\+", "%20");
+    private String uriEncode(String text)  {
+        try {
+            return URLEncoder.encode(text, StandardCharsets.UTF_8.toString()).replaceAll("\\+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            // This should never throw, as we are certain the charset specified (UTF-8) is valid
+            throw new RuntimeException("Could not URI encode QrData.");
+        }
     }
 
     public static class Builder {

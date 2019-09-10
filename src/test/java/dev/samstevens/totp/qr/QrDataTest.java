@@ -1,13 +1,12 @@
 package dev.samstevens.totp.qr;
 
 import org.junit.Test;
-import java.io.UnsupportedEncodingException;
 import static org.junit.Assert.*;
 
 public class QrDataTest {
 
     @Test
-    public void testUriGeneration() throws UnsupportedEncodingException {
+    public void testUriGeneration() {
         QrData data = new QrData.Builder()
                 .label("example@example.com")
                 .secret("the-secret-here")
