@@ -6,7 +6,7 @@ A java library to help generate and verify time-based one time passwords for Mul
 
 Generates QR codes that are recognisable by applications like Google Authenticator, and verify the one time passwords they produce.
 
-
+Inspired by [PHP library for Two Factor Authentication](https://github.com/RobThree/TwoFactorAuth), a similar library for PHP.
 
 ## Requirements
 
