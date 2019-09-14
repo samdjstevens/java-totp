@@ -22,6 +22,10 @@ public class ZxingPngQrGenerator implements QrGenerator {
         return imageSize;
     }
 
+    public String getImageMimeType() {
+        return "image/png";
+    }
+
     @Override
     public byte[] generate(QrData data) throws QrGenerationException {
         try {

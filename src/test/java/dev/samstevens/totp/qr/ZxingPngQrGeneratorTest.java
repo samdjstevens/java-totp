@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import static org.junit.Assert.*;
 
 public class ZxingPngQrGeneratorTest {
 
@@ -21,6 +22,11 @@ public class ZxingPngQrGeneratorTest {
                 .build();
 
         writeTestFile(generator.generate(data), "./test_qr.png");
+    }
+
+    @Test
+    public void voidTestMimeType() {
+        assertEquals("image/png", new ZxingPngQrGenerator().getImageMimeType());
     }
 
     private void writeTestFile(byte[] contents, String filePath) {
