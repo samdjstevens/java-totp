@@ -8,7 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-class DefaultCodeGenerator implements CodeGenerator {
+public class DefaultCodeGenerator implements CodeGenerator {
 
     @Override
     public String generate(String key, long counter) throws CodeGenerationException {

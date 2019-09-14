@@ -1,10 +1,8 @@
 package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
-import dev.samstevens.totp.time.SystemTimeProvider;
 import dev.samstevens.totp.time.TimeProvider;
 
-@SuppressWarnings("WeakerAccess")
 public class DefaultCodeVerifier implements CodeVerifier {
 
     private final CodeGenerator codeGenerator;
@@ -13,11 +11,6 @@ public class DefaultCodeVerifier implements CodeVerifier {
     public DefaultCodeVerifier(CodeGenerator codeGenerator, TimeProvider timeProvider) {
         this.codeGenerator = codeGenerator;
         this.timeProvider = timeProvider;
-    }
-
-    public DefaultCodeVerifier() {
-        this.codeGenerator = new DefaultCodeGenerator();
-        this.timeProvider = new SystemTimeProvider();
     }
 
     @Override

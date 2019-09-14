@@ -1,18 +1,20 @@
 package dev.samstevens.totp;
 
 import dev.samstevens.totp.code.CodeVerifier;
+import dev.samstevens.totp.code.DefaultCodeGenerator;
 import dev.samstevens.totp.code.DefaultCodeVerifier;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 import dev.samstevens.totp.qr.QrData;
 import dev.samstevens.totp.qr.ZxingPngQrGenerator;
 import dev.samstevens.totp.secret.DefaultSecretGenerator;
 import dev.samstevens.totp.secret.SecretGenerator;
+import dev.samstevens.totp.time.SystemTimeProvider;
 
 @SuppressWarnings("WeakerAccess")
 public class Totp {
 
     private static SecretGenerator secretGenerator = new DefaultSecretGenerator();
-    private static CodeVerifier codeVerifier = new DefaultCodeVerifier();
+    private static CodeVerifier codeVerifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
     private static ZxingPngQrGenerator qrGenerator = new ZxingPngQrGenerator();
 
     public String generateSecret() {
