@@ -7,14 +7,30 @@ public class DefaultSecretGeneratorTest {
 
     @Test
     public void testSecretGenerated() {
-        DefaultSecretGenerator generator32 = new DefaultSecretGenerator();
-        String secret32 = generator32.generate();
-        assertNotNull(secret32);
-        assertEquals(32, secret32.length());
+        DefaultSecretGenerator generator = new DefaultSecretGenerator();
+        String secret = generator.generate();
+        assertNotNull(secret);
+        assertTrue(secret.length() > 0);
+    }
 
-        DefaultSecretGenerator generator16 = new DefaultSecretGenerator(16);
-        String secret16 = generator16.generate();
-        assertNotNull(secret16);
-        assertEquals(16, secret16.length());
+    @Test
+    public void testCharacterLengths() {
+        for (int charCount : new int[]{16, 32, 64, 128}) {
+            DefaultSecretGenerator generator = new DefaultSecretGenerator(charCount);
+            String secret = generator.generate();
+            assertEquals(charCount, secret.length());
+        }
+    }
+
+    @Test
+    public void testValidBase32Encoded() {
+        DefaultSecretGenerator generator = new DefaultSecretGenerator(1);
+        String secret = generator.generate();
+
+        // Test the string contains only A-Z, 2-7 with optional ending =s
+        assertTrue(secret.matches("^[A-Z2-7]+=*$"));
+
+        // And the length must be a multiple of 8
+        assertEquals(0, secret.length() % 8);
     }
 }
