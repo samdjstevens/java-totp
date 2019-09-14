@@ -11,6 +11,10 @@
   <name>totp</name>
   <url>https://github.com/samdjstevens/java-totp</url>
 
+  <scm>
+    <developerConnection>scm:git:git@github.com:samdjstevens/java-totp.git</developerConnection>
+  </scm>
+
   <licenses>
     <license>
       <name>MIT License</name>
