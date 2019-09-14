@@ -24,7 +24,7 @@ public class DefaultSecretGeneratorTest {
 
     @Test
     public void testValidBase32Encoded() {
-        DefaultSecretGenerator generator = new DefaultSecretGenerator(1);
+        DefaultSecretGenerator generator = new DefaultSecretGenerator();
         String secret = generator.generate();
 
         // Test the string contains only A-Z, 2-7 with optional ending =s
