@@ -12,15 +12,20 @@ import java.io.IOException;
 public class ZxingPngQrGenerator implements QrGenerator {
 
     private static final QRCodeWriter writer = new QRCodeWriter();
+    private int imageSize = 350;
+
+    public void setImageSize(int imageSize) {
+        this.imageSize = imageSize;
+    }
+
+    public int getImageSize() {
+        return imageSize;
+    }
 
     @Override
     public byte[] generate(QrData data) throws QrGenerationException {
-
-        final int imageWidth = 350;
-        final int imageHeight = 350;
-
         try {
-            BitMatrix bitMatrix = writer.encode(data.getUri(), BarcodeFormat.QR_CODE, imageWidth, imageHeight);
+            BitMatrix bitMatrix = writer.encode(data.getUri(), BarcodeFormat.QR_CODE, imageSize, imageSize);
             ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
 
