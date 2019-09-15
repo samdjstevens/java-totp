@@ -7,12 +7,22 @@
   <artifactId>totp</artifactId>
   <version>1.2-SNAPSHOT</version>
 
-  <name>totp</name>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>A library to help implement time-based one time passwords to enable MFA.</description>
   <url>https://github.com/samdjstevens/java-totp</url>
+
+  <developers>
+    <developer>
+      <name>Sam Stevens</name>
+      <email>samdjstevens@googlemail.com</email>
+      <organizationUrl>https://github.com/samdjstevens</organizationUrl>
+    </developer>
+  </developers>
 
   <scm>
     <developerConnection>scm:git:git@github.com:samdjstevens/java-totp.git</developerConnection>
     <tag>HEAD</tag>
+    <url>https://github.com/samdjstevens/java-totp</url>
   </scm>
 
   <licenses>
