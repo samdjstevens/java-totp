@@ -24,7 +24,7 @@ To add this library to your java project using Maven, add the following dependen
 <dependency>
   <groupId>dev.samstevens.totp</groupId>
   <artifactId>totp</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.2</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ To add the dependency using Gradle, add the following to the build script:
 
 ```
 dependencies {
-  compile 'dev.samstevens.totp:totp:1.0-SNAPSHOT'
+  compile 'dev.samstevens.totp:totp:1.2'
 }
 ```
 
