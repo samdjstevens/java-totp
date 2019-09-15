@@ -1,6 +1,6 @@
 # Time-based One Time Password (MFA) Library for Java
 
-[![CircleCI](https://circleci.com/gh/samdjstevens/java-totp/tree/master.svg?style=svg&circle-token=10b865d8ba6091caba7a73a5a2295bd642ab79d5)](https://circleci.com/gh/samdjstevens/java-totp/tree/master)
+[![CircleCI](https://circleci.com/gh/samdjstevens/java-totp/tree/master.svg?style=svg&circle-token=10b865d8ba6091caba7a73a5a2295bd642ab79d5)](https://circleci.com/gh/samdjstevens/java-totp/tree/master) [![Maven Central](https://img.shields.io/maven-central/v/dev.samstevens.totp/totp.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22dev.samstevens.totp%22%20AND%20a:%22totp%22)
 
 A java library to help generate and verify time-based one time passwords for Multi-Factor Authentication.
 
