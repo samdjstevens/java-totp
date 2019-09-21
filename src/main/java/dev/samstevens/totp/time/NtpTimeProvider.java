@@ -23,7 +23,7 @@ public class NtpTimeProvider implements TimeProvider {
         try {
             TimeInfo timeInfo = client.getTime(ntpHost);
 
-            return timeInfo.getReturnTime();
+            return (long) Math.floor(timeInfo.getReturnTime() / 1000L);
         } catch (IOException e) {
             throw new TimeProviderException();
         }
