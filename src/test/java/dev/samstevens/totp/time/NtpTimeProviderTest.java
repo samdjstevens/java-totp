@@ -21,8 +21,8 @@ public class NtpTimeProviderTest {
     }
 
     @Test(expected = TimeProviderException.class)
-    public void testInvalidHostThrowsException() throws UnknownHostException {
-        TimeProvider time = new NtpTimeProvider("invalid-host");
+    public void testNonNtpHostThrowsException() throws UnknownHostException {
+        TimeProvider time = new NtpTimeProvider("www.example.com");
         time.getTime();
     }
 }
