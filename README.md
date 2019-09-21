@@ -114,6 +114,25 @@ This same process is used when verifying the submitted code every time the user 
 
 
 
+### Using different time providers
+
+When verifying user submitted codes with a `DefaultCodeVerifier`, a `TimeProvider` is needed to get the current time (unix) time. In the example code above, a `SystemTimeProvider` is used, but this is not the only option.
+
+#### Getting the time from the system
+
+Most applications should be able to use the `SystemTimeProvider` class to provide the time, which gets the time from the system clock.  If the system clock is reliable, it is reccomended that this provider is used.
+
+
+#### Getting the time from an NTP Server
+
+If the system clock cannot be used to accurately get the current time, then you can fetch it from an NTP server with the `dev.samstevens.totp.time.NtpTimeProvider` class, passing in the NTP server hostname you wish you use.
+
+```java
+TimeProvider timeProvider = new NtpTimeProvider("pool.ntp.org");
+```
+
+
+
 ## Running Tests
 
 To run the tests for the library with Maven, run `mvn test`.
