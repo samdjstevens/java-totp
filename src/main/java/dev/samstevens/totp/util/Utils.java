@@ -2,7 +2,6 @@ package dev.samstevens.totp.util;
 
 import org.apache.commons.codec.binary.Base64;
 
-@SuppressWarnings("WeakerAccess")
 public class Utils {
     private static Base64 base64Codec = new Base64();
 
