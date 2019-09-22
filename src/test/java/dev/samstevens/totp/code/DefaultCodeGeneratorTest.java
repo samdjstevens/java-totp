@@ -2,6 +2,7 @@ package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
 import org.junit.Test;
+import java.security.InvalidParameterException;
 import static org.junit.Assert.*;
 
 public class DefaultCodeGeneratorTest {
@@ -29,6 +30,11 @@ public class DefaultCodeGeneratorTest {
         g = new DefaultCodeGenerator(HashingAlgorithm.SHA1, 4);
         code = g.generate("W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY", 1567631536);
         assertEquals(4, code.length());
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void testInvalidDigitLengthThrowsException() {
+        new DefaultCodeGenerator(HashingAlgorithm.SHA1, 0);
     }
 
     private String generateCode(String secret, int time) throws CodeGenerationException {

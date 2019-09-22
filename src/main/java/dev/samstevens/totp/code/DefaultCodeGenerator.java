@@ -5,6 +5,7 @@ import org.apache.commons.codec.binary.Base32;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
+import java.security.InvalidParameterException;
 import java.security.NoSuchAlgorithmException;
 
 public class DefaultCodeGenerator implements CodeGenerator {
@@ -20,11 +21,11 @@ public class DefaultCodeGenerator implements CodeGenerator {
         this(algorithm, 6);
     }
 
-    public DefaultCodeGenerator(int digits) {
-        this(HashingAlgorithm.SHA1, 6);
-    }
-
     public DefaultCodeGenerator(HashingAlgorithm algorithm, int digits) {
+        if (digits < 1) {
+            throw new InvalidParameterException("Number of digits must be higher than 0.");
+        }
+
         this.algorithm = algorithm;
         this.digits = digits;
     }
