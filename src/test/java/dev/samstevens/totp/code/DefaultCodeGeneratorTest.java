@@ -16,6 +16,21 @@ public class DefaultCodeGeneratorTest {
         assertEquals("870366", code);
     }
 
+    @Test
+    public void testDigitLength() throws CodeGenerationException {
+        DefaultCodeGenerator g = new DefaultCodeGenerator(HashingAlgorithm.SHA1);
+        String code = g.generate("W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY", 1567631536);
+        assertEquals(6, code.length());
+
+        g = new DefaultCodeGenerator(HashingAlgorithm.SHA1, 8);
+        code = g.generate("W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY", 1567631536);
+        assertEquals(8, code.length());
+
+        g = new DefaultCodeGenerator(HashingAlgorithm.SHA1, 4);
+        code = g.generate("W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY", 1567631536);
+        assertEquals(4, code.length());
+    }
+
     private String generateCode(String secret, int time) throws CodeGenerationException {
         DefaultCodeGenerator g = new DefaultCodeGenerator();
         return g.generate(secret, time);

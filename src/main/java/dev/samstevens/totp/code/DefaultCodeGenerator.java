@@ -10,13 +10,23 @@ import java.security.NoSuchAlgorithmException;
 public class DefaultCodeGenerator implements CodeGenerator {
 
     private final HashingAlgorithm algorithm;
+    private final int digits;
 
     public DefaultCodeGenerator() {
-        this(HashingAlgorithm.SHA1);
+        this(HashingAlgorithm.SHA1, 6);
     }
 
     public DefaultCodeGenerator(HashingAlgorithm algorithm) {
+        this(algorithm, 6);
+    }
+
+    public DefaultCodeGenerator(int digits) {
+        this(HashingAlgorithm.SHA1, 6);
+    }
+
+    public DefaultCodeGenerator(HashingAlgorithm algorithm, int digits) {
         this.algorithm = algorithm;
+        this.digits = digits;
     }
 
     @Override
@@ -51,7 +61,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
     }
 
     /**
-     * Get the 6 digit code for a given hash.
+     * Get the n-digit code for a given hash.
      */
     private String getDigitsFromHash(byte[] hash) {
         int offset = hash[20 - 1] & 0xF;
@@ -64,9 +74,9 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
 
         truncatedHash &= 0x7FFFFFFF;
-        truncatedHash %= 1000000;
+        truncatedHash %= Math.pow(10, digits);
 
-        // Left pad with 0s for a 6 digit code
-        return String.format("%06d", truncatedHash);
+        // Left pad with 0s for a n-digit code
+        return String.format("%0" + digits + "d", truncatedHash);
     }
 }
