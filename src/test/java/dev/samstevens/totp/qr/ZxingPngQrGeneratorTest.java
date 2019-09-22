@@ -5,15 +5,14 @@ import org.junit.Test;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import static dev.samstevens.totp.IOUtils.*;
 import static org.junit.Assert.*;
 
 public class ZxingPngQrGeneratorTest {
 
     @Test
-    public void testSomething() throws QrGenerationException {
+    public void testSomething() throws QrGenerationException, IOException {
         ZxingPngQrGenerator generator = new ZxingPngQrGenerator();
 
         QrData data = new QrData.Builder()
@@ -24,7 +23,7 @@ public class ZxingPngQrGeneratorTest {
                 .period(30)
                 .build();
 
-        writeTestFile(generator.generate(data), "./test_qr.png");
+        writeFile(generator.generate(data), "./test_qr.png");
     }
 
     @Test
@@ -40,7 +39,7 @@ public class ZxingPngQrGeneratorTest {
 
         // Write the data to a temp file and read it into a BufferedImage to get the dimensions
         String filename = "/tmp/test_qr.png";
-        writeTestFile(data, filename);
+        writeFile(data, filename);
         File file = new File(filename);
         BufferedImage image = ImageIO.read(file);
 
@@ -59,15 +58,5 @@ public class ZxingPngQrGeneratorTest {
                 .digits(6)
                 .period(30)
                 .build();
-    }
-
-    private void writeTestFile(byte[] contents, String filePath) {
-        try (FileOutputStream stream = new FileOutputStream(filePath)) {
-            stream.write(contents);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
