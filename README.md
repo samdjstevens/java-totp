@@ -138,7 +138,24 @@ By default, the `DefaultCodeGenerator` uses the SHA1 algorithm to generate/verif
 CodeGenerator codeGenerator = new DefaultCodeGenerator(HashingAlgorithm.SHA512);
 ```
 
-When verifying a given code, **you must use the same hashing algorithm** that was specified when the QR code was generated, otherwise the user submitted codes will not match.
+When verifying a given code, **you must use the same hashing algorithm** that was specified when the QR code was generated for the secret, otherwise the user submitted codes will not match.
+
+#### Setting the time period and discrepancy
+
+The one time password codes generated in the authenticator apps only last for a certain time period before they are re-generated, and most implementations of TOTP allow room for codes that have recently expired, or will only "become valid" soon in the future to be accepted as valid, to allow for a small time drift between the server and the authenticator app (discrepancy).
+
+By default on a `DefaultCodeVerifier` the time period is set to the standard 30 seconds, and the discrepancy to 1, to allow a time drift of +/-30 seconds. These values can be changed by calling the appropriate setters:
+
+```java
+CodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
+// sets the time period for codes to be valid for to 60 seconds
+verifier.setTimePeriod(60);
+
+// allow codes valid for 2 time periods before/after to pass as valid
+verifier.setAllowedTimePeriodDiscrepancy(2);
+```
+
+Like the hashing algorithm, **the time period must be the same** as the one specified when the QR code for the secret was created.
 
 
 
