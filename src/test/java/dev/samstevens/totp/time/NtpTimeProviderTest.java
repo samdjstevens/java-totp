@@ -12,7 +12,8 @@ public class NtpTimeProviderTest {
         TimeProvider time = new NtpTimeProvider("pool.ntp.org");
         long currentTime = time.getTime();
 
-        assertTrue(currentTime > 1569076881);
+        // epoch should be 10 digits for the foreseeable future...
+        assertEquals(10, String.valueOf(currentTime).length());
     }
 
     @Test(expected = UnknownHostException.class)
