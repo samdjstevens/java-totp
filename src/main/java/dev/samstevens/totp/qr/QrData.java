@@ -1,5 +1,7 @@
 package dev.samstevens.totp.qr;
 
+import dev.samstevens.totp.code.HashingAlgorithm;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -61,7 +63,7 @@ public class QrData {
         private String label;
         private String secret;
         private String issuer;
-        private String algorithm = "SHA1";
+        private HashingAlgorithm algorithm = HashingAlgorithm.SHA1;
         private int digits = 6;
         private int period = 30;
 
@@ -80,7 +82,7 @@ public class QrData {
             return this;
         }
 
-        public Builder algorithm(String algorithm) {
+        public Builder algorithm(HashingAlgorithm algorithm) {
             this.algorithm = algorithm;
             return this;
         }
@@ -96,7 +98,7 @@ public class QrData {
         }
 
         public QrData build() {
-            return new QrData("totp", label, secret, issuer, algorithm, digits, period);
+            return new QrData("totp", label, secret, issuer, algorithm.getFriendlyName(), digits, period);
         }
     }
 }

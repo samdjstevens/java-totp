@@ -7,22 +7,32 @@ public class DefaultCodeVerifier implements CodeVerifier {
 
     private final CodeGenerator codeGenerator;
     private final TimeProvider timeProvider;
+    private int timePeriod = 30;
+    private int allowedTimePeriodDiscrepancy = 1;
 
     public DefaultCodeVerifier(CodeGenerator codeGenerator, TimeProvider timeProvider) {
         this.codeGenerator = codeGenerator;
         this.timeProvider = timeProvider;
     }
 
+    public void setTimePeriod(int timePeriod) {
+        this.timePeriod = timePeriod;
+    }
+
+    public void setAllowedTimePeriodDiscrepancy(int allowedTimePeriodDiscrepancy) {
+        this.allowedTimePeriodDiscrepancy = allowedTimePeriodDiscrepancy;
+    }
+
     @Override
     public boolean isValidCode(String secret, String code) {
         // Get the current number of seconds since the epoch and
-        // calculate the number of 30 second buckets passed.
-        long currentBucket = Math.floorDiv(timeProvider.getTime(), 30L);
+        // calculate the number of time periods passed.
+        long currentBucket = Math.floorDiv(timeProvider.getTime(), timePeriod);
 
-        // Calculate and compare the codes for the previous, current, and next time
-        // buckets, comparing all 3 to avoid timing attacks
+        // Calculate and compare the codes for all the "valid" time periods,
+        // even if we get an early match, to avoid timing attacks
         boolean success = false;
-        for (int i = -1; i <= 1; i++) {
+        for (int i = -allowedTimePeriodDiscrepancy; i <= allowedTimePeriodDiscrepancy; i++) {
             success = checkCode(secret, currentBucket + i, code) || success;
         }
 
