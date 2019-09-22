@@ -73,6 +73,7 @@ To generate such a QR code, first create a `dev.samstevens.totp.qr.QrData` insta
    .label("example@example.com")
    .secret(secret)
    .issuer("AppName")
+   .algorithm(HashingAlgorithm.SHA1) // More on this below
    .digits(6)
    .period(30)
    .build();
@@ -128,6 +129,16 @@ boolean successful = verifier.isValidCode(secret, code)
 ```
 
 This same process is used when verifying the submitted code every time the user needs to in the future.
+
+#### Using different hashing algorithms
+
+By default, the `DefaultCodeGenerator` uses the SHA1 algorithm to generate/verify codes, but SHA256 and SHA512 are also supported. To use a different algorithm, pass in the desired `HashingAlgorithm` into the constructor:
+
+```java
+CodeGenerator codeGenerator = new DefaultCodeGenerator(HashingAlgorithm.SHA512);
+```
+
+When verifying a given code, **you must use the same hashing algorithm** that was specified when the QR code was generated, otherwise the user submitted codes will not match.
 
 
 
