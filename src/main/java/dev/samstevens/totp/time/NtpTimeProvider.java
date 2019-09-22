@@ -13,8 +13,13 @@ public class NtpTimeProvider implements TimeProvider {
     private final InetAddress ntpHost;
 
     public NtpTimeProvider(String ntpHostname) throws UnknownHostException {
+        // default timeout of  3 seconds
+        this(ntpHostname, 3000);
+    }
+
+    public NtpTimeProvider(String ntpHostname, int timeout) throws UnknownHostException {
         client = new NTPUDPClient();
-        client.setDefaultTimeout(3000);
+        client.setDefaultTimeout(timeout);
         ntpHost = InetAddress.getByName(ntpHostname);
     }
 
