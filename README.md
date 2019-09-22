@@ -159,6 +159,12 @@ If the system clock cannot be used to accurately get the current time, then you 
 TimeProvider timeProvider = new NtpTimeProvider("pool.ntp.org");
 ```
 
+The default timeout for the requests to the NTP server is 3 seconds, but this can be set by passing in the desired number of milliseconds as the second parameter in the constructor:
+
+```java
+TimeProvider timeProvider = new NtpTimeProvider("pool.ntp.org", 5000);
+```
+
 
 
 ## Running Tests
