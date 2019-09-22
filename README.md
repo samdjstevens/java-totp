@@ -94,6 +94,23 @@ String mimeType = generator.getImageMimeType();
 
 The image data can then be outputted to the browser, or saved to a temporary file to show it to the user.
 
+#### Embedding the QR code within HTML
+
+To avoid the QR code image having to be saved to disk, or passing the shared secret to another endpoint that generates and returns the image, it can be encoded in a [Data URI](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs), and embedded directly in the HTML served to the user.
+
+```java
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
+...
+String dataUri = getDataUriForImage(imageData, mimeType);
+// dataUri = data:image/png;base64,iVBORw0KGgoAAAANSU...
+```
+
+The QR code image can now be embedded directly in HTML via the data URI. Below is an example using [Thymeleaf](https://www.thymeleaf.org/):
+
+```html
+<img th:src="${dataUri}" />
+```
+
 
 
 ### Verifying one time passwords
