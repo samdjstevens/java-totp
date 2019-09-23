@@ -42,6 +42,14 @@ dependencies {
 
 ## Usage
 
+- [Generating secrets](#generating-a-shared-secret)
+- [Generating QR codes](#generating-a-qr-code)
+- [Verifying one time passwords](#verifying-one-time-passwords)
+- [Using different time providers](#using-different-time-providers)
+- [Recovery codes](#recovery-codes)
+
+
+
 ### Generating a shared secret
 
 To generate a secret, use the `dev.samstevens.totp.secret.DefaultSecretGenerator` class.
@@ -192,6 +200,25 @@ The default timeout for the requests to the NTP server is 3 seconds, but this ca
 
 ```java
 TimeProvider timeProvider = new NtpTimeProvider("pool.ntp.org", 5000);
+```
+
+
+
+### Recovery Codes
+
+Recovery codes can be used to allow users to gain access to their MFA protected account without providing a TOTP, bypassing the MFA process. This is usually given as an option to the user so that in the event of losing access to the device which they have registered the MFA secret with, they are still able to log in.
+
+Usually, upon registering an account for MFA, several one-time use codes will be generated and presented to the user, with instructions to keep them very safe. When the user is presented with the prompt for a TOTP in the future, they can opt to enter one of the recovery codes instead to gain access to their account. 
+
+Most of the logic needed for implementing recovery codes (storage, associating them with a user, checking for existance, etc) is implementation specific, but the codes themselves can be generated via this library.
+
+```java
+import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
+...
+// Generate 16 random recovery codes
+RecoveryCodeGenerator recoveryCodes = new RecoveryCodeGenerator();
+String[] codes = recoveryCodes.generate(16);
+// codes = ["efixm-g7fds", "4u3uc-xij2u", "vba7i-3fpny", "cmxf4-shn26", ...]
 ```
 
 
