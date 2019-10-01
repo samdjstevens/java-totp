@@ -35,8 +35,8 @@ public class DefaultCodeGenerator implements CodeGenerator {
         try {
             byte[] hash = generateHash(key, counter);
             return getDigitsFromHash(hash);
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new CodeGenerationException();
+        } catch (Exception e) {
+            throw new CodeGenerationException("Failed to generate code. See nested exception.", e);
         }
     }
 

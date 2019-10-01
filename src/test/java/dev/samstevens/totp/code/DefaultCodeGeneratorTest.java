@@ -37,6 +37,18 @@ public class DefaultCodeGeneratorTest {
         new DefaultCodeGenerator(HashingAlgorithm.SHA1, 0);
     }
 
+    @Test(expected = CodeGenerationException.class)
+    public void testInvalidKeyThrowsCodeGenerationException() throws CodeGenerationException {
+        try {
+            DefaultCodeGenerator g = new DefaultCodeGenerator(HashingAlgorithm.SHA1, 4);
+            g.generate("1234", 1567631536);
+        } catch (CodeGenerationException e) {
+            // Assert there is a cause for the exception
+            assertNotNull(e.getCause());
+            throw e;
+        }
+    }
+
     private String generateCode(String secret, int time) throws CodeGenerationException {
         DefaultCodeGenerator g = new DefaultCodeGenerator();
         return g.generate(secret, time);

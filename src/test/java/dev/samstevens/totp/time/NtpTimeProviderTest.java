@@ -23,7 +23,13 @@ public class NtpTimeProviderTest {
 
     @Test(expected = TimeProviderException.class)
     public void testNonNtpHostThrowsException() throws UnknownHostException {
-        TimeProvider time = new NtpTimeProvider("www.example.com");
-        time.getTime();
+        try {
+            TimeProvider time = new NtpTimeProvider("www.example.com");
+            time.getTime();
+        } catch (TimeProviderException e) {
+            // Assert there is a cause for the exception
+            assertNotNull(e.getCause());
+            throw e;
+        }
     }
 }

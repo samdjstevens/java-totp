@@ -1,13 +1,11 @@
 package dev.samstevens.totp.qr;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 public class ZxingPngQrGenerator implements QrGenerator {
 
@@ -34,8 +32,8 @@ public class ZxingPngQrGenerator implements QrGenerator {
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
 
             return pngOutputStream.toByteArray();
-        } catch (WriterException | IOException e) {
-            throw new QrGenerationException();
+        } catch (Exception e) {
+            throw new QrGenerationException("Failed to generate QR code. See nested exception.", e);
         }
     }
 }
