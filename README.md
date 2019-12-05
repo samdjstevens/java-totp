@@ -87,7 +87,7 @@ To generate such a QR code, first create a `dev.samstevens.totp.qr.QrData` insta
    .build();
 ```
 
-Once you have a `QrData` object holding the relevant details, a PNG image of the code can be generated using the `dev.samstevens.totp.qrZxingPngQrGenerator` class.
+Once you have a `QrData` object holding the relevant details, a PNG image of the code can be generated using the `dev.samstevens.totp.qr.ZxingPngQrGenerator` class.
 
 ```java
 QrGenerator generator = new ZxingPngQrGenerator();
