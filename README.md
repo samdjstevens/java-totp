@@ -217,7 +217,7 @@ import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
 ...
 // Generate 16 random recovery codes
 RecoveryCodeGenerator recoveryCodes = new RecoveryCodeGenerator();
-String[] codes = recoveryCodes.generate(16);
+String[] codes = recoveryCodes.generateCodes(16);
 // codes = ["efixm-g7fds", "4u3uc-xij2u", "vba7i-3fpny", "cmxf4-shn26", ...]
 ```
 
