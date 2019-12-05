@@ -2,7 +2,7 @@ package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
 
-interface CodeGenerator {
+public interface CodeGenerator {
     /**
      * @param secret The shared secret/key to generate the code with.
      * @param counter The current time bucket number. Number of seconds since epoch / bucket period.
