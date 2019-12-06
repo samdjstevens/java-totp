@@ -33,6 +33,11 @@ public class DefaultCodeGeneratorTest {
     }
 
     @Test(expected = InvalidParameterException.class)
+    public void testInvalidHashingAlgorithmThrowsException() {
+        new DefaultCodeGenerator(null, 6);
+    }
+    
+    @Test(expected = InvalidParameterException.class)
     public void testInvalidDigitLengthThrowsException() {
         new DefaultCodeGenerator(HashingAlgorithm.SHA1, 0);
     }

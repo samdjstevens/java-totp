@@ -22,6 +22,9 @@ public class DefaultCodeGenerator implements CodeGenerator {
     }
 
     public DefaultCodeGenerator(HashingAlgorithm algorithm, int digits) {
+        if (algorithm == null) {
+            throw new InvalidParameterException("HashingAlgorithm must not be null.");
+        }
         if (digits < 1) {
             throw new InvalidParameterException("Number of digits must be higher than 0.");
         }
