@@ -5,7 +5,7 @@
 
   <groupId>dev.samstevens.totp</groupId>
   <artifactId>totp</artifactId>
-  <version>1.5</version>
+  <version>1.5.1</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>A library to help implement time-based one time passwords to enable MFA.</description>
@@ -21,7 +21,7 @@
 
   <scm>
     <developerConnection>scm:git:git@github.com:samdjstevens/java-totp.git</developerConnection>
-    <tag>totp-1.5</tag>
+    <tag>totp-1.5.1</tag>
     <url>https://github.com/samdjstevens/java-totp</url>
   </scm>
 
