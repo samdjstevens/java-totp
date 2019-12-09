@@ -61,6 +61,7 @@
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
       <version>3.6</version>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.zxing</groupId>
