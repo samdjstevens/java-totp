@@ -32,4 +32,15 @@ public class NtpTimeProviderTest {
             throw e;
         }
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testRequiresDependency() throws UnknownHostException {
+        try {
+            // Use package-private constructor to test depending on a non-existing "fake.class.Here" class
+            TimeProvider time = new NtpTimeProvider("www.example.com", "fake.class.Here");
+        } catch (RuntimeException e) {
+            assertEquals("The Apache Commons Net library must be on the classpath to use the NtpTimeProvider.", e.getMessage());
+            throw e;
+        }
+    }
 }

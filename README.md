@@ -202,7 +202,25 @@ The default timeout for the requests to the NTP server is 3 seconds, but this ca
 TimeProvider timeProvider = new NtpTimeProvider("pool.ntp.org", 5000);
 ```
 
+**Using this time provider requires that the [Apache Commons Net](https://commons.apache.org/proper/commons-net) library is available on the classpath**. Add the dependency to your project with Maven/Gradle like this:
 
+**Maven**:
+
+```xml
+<dependency>
+  <groupId>commons-net</groupId>
+  <artifactId>commons-net</artifactId>
+  <version>3.6</version>
+</dependency>
+```
+
+**Gradle**:
+
+```
+dependencies {
+  compile 'commons-net:commons-net:3.6'
+}
+```
 
 ### Recovery Codes
 
