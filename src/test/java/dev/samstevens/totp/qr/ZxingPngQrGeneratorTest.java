@@ -1,5 +1,7 @@
 package dev.samstevens.totp.qr;
 
+import com.google.zxing.Writer;
+import com.google.zxing.WriterException;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 import org.junit.Test;
 import javax.imageio.ImageIO;
@@ -8,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import static dev.samstevens.totp.IOUtils.*;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ZxingPngQrGeneratorTest {
 
@@ -43,11 +48,29 @@ public class ZxingPngQrGeneratorTest {
         File file = new File(filename);
         BufferedImage image = ImageIO.read(file);
 
+        assertEquals(500, generator.getImageSize());
         assertEquals(500, image.getWidth());
         assertEquals(500, image.getHeight());
 
         // Delete the temp file
         file.delete();
+    }
+
+    @Test(expected = QrGenerationException.class)
+    public void testExceptionIsWrapped() throws QrGenerationException, WriterException {
+        Throwable exception = new RuntimeException();
+
+        try {
+            Writer writer = mock(Writer.class);
+            when(writer.encode(anyString(), any(), anyInt(), anyInt())).thenThrow(exception);
+
+            ZxingPngQrGenerator generator = new ZxingPngQrGenerator(writer);
+            generator.generate(getData());
+        } catch (QrGenerationException e) {
+            assertEquals("Failed to generate QR code. See nested exception.", e.getMessage());
+            assertEquals(exception, e.getCause());
+            throw e;
+        }
     }
 
     private QrData getData() {
