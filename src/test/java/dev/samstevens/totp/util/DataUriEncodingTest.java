@@ -1,20 +1,25 @@
 package dev.samstevens.totp.util;
 
-import dev.samstevens.totp.IOUtils;
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Base64;
+
 import org.junit.Test;
-import java.io.*;
-import static org.junit.Assert.*;
-import static dev.samstevens.totp.util.Utils.*;
 
 public class DataUriEncodingTest {
 
     @Test
-    public void testDataUriEncode() throws IOException {
-        byte[] imageData = IOUtils.readImageIntoBytes("example_qr.png", "png");
-        String expectedDataUri = IOUtils.readTextFile("/example_qr_data_uri.txt");
+    public void testDataUriEncode() throws IOException, URISyntaxException {
 
-        String dataUri = getDataUriForImage(imageData, "image/png");
+        // Source data : 
+        // 1×1 white px PNG image base64 encoded :
+        final String pngImage = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=";
+        final byte[] imageData = Base64.getDecoder().decode(pngImage);
 
-        assertEquals(expectedDataUri, dataUri);
+        assertEquals("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=", 
+                     getDataUriForImage(imageData, "image/png"));
     }
 }
