@@ -1,3 +1,9 @@
 .idea
 target
 *.iml
+
+# Eclipse
+.settings
+.project
+.classpath
+bin
