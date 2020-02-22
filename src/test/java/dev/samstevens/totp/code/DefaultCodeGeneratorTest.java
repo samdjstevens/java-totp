@@ -1,9 +1,9 @@
 package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.security.InvalidParameterException;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DefaultCodeGeneratorTest {
 
@@ -32,26 +32,27 @@ public class DefaultCodeGeneratorTest {
         assertEquals(4, code.length());
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test
     public void testInvalidHashingAlgorithmThrowsException() {
-        new DefaultCodeGenerator(null, 6);
+        assertThrows(InvalidParameterException.class, () -> {
+            new DefaultCodeGenerator(null, 6);
+        });
     }
     
-    @Test(expected = InvalidParameterException.class)
+    @Test
     public void testInvalidDigitLengthThrowsException() {
-        new DefaultCodeGenerator(HashingAlgorithm.SHA1, 0);
+        assertThrows(InvalidParameterException.class, () -> {
+            new DefaultCodeGenerator(HashingAlgorithm.SHA1, 0);
+        });
     }
 
-    @Test(expected = CodeGenerationException.class)
+    @Test
     public void testInvalidKeyThrowsCodeGenerationException() throws CodeGenerationException {
-        try {
+        CodeGenerationException e = assertThrows(CodeGenerationException.class, () -> {
             DefaultCodeGenerator g = new DefaultCodeGenerator(HashingAlgorithm.SHA1, 4);
             g.generate("1234", 1567631536);
-        } catch (CodeGenerationException e) {
-            // Assert there is a cause for the exception
-            assertNotNull(e.getCause());
-            throw e;
-        }
+        });
+        assertNotNull(e.getCause());
     }
 
     private String generateCode(String secret, int time) throws CodeGenerationException {
