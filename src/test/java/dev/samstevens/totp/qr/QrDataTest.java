@@ -22,4 +22,21 @@ public class QrDataTest {
             data.getUri()
         );
     }
+
+    @Test
+    public void testNullFieldUriGeneration() {
+        QrData data = new QrData.Builder()
+                .label(null)
+                .secret(null)
+                .issuer("AppName AppCorp")
+                .algorithm(HashingAlgorithm.SHA256)
+                .digits(6)
+                .period(30)
+                .build();
+
+        assertEquals(
+            "otpauth://totp/?secret=&issuer=AppName%20AppCorp&algorithm=SHA256&digits=6&period=30",
+            data.getUri()
+        );
+    }
 }

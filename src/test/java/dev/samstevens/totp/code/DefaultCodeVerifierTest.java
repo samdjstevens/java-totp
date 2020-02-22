@@ -38,7 +38,8 @@ public class DefaultCodeVerifierTest {
         CodeGenerator codeGenerator = mock(CodeGenerator.class);
         when(codeGenerator.generate(anyString(), anyLong())).thenThrow(new CodeGenerationException("Test", new RuntimeException()));
 
-        CodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
+        DefaultCodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
+        verifier.setAllowedTimePeriodDiscrepancy(1);
 
 
         assertEquals(false, verifier.isValidCode(secret, "1234"));
