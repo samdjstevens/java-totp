@@ -2,8 +2,8 @@ package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
 import dev.samstevens.totp.time.TimeProvider;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DefaultCodeVerifierTest {
@@ -31,8 +31,6 @@ public class DefaultCodeVerifierTest {
     public void testCodeGenerationFailureReturnsFalse() throws CodeGenerationException {
 
         String secret = "EX47GINFPBK5GNLYLILGD2H6ZLGJNNWB";
-//        long timeToRunAt = 1567975936;
-//        String correctCode = "862707";
 
         TimeProvider timeProvider = mock(TimeProvider.class);
         when(timeProvider.getTime()).thenReturn(1567975936L);

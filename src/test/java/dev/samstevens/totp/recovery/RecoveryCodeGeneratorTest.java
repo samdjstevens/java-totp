@@ -1,11 +1,11 @@
 package dev.samstevens.totp.recovery;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RecoveryCodeGeneratorTest {
 
@@ -42,9 +42,12 @@ public class RecoveryCodeGeneratorTest {
         assertEquals(25, uniqueCodes.size());
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test
     public void testInvalidNumberThrowsException() {
         RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
-        generator.generateCodes(-1);
+
+        assertThrows(InvalidParameterException.class, () -> {
+            generator.generateCodes(-1);
+        });
     }
 }

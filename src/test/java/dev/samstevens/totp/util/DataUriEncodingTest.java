@@ -1,18 +1,14 @@
 package dev.samstevens.totp.util;
 
 import static dev.samstevens.totp.util.Utils.getDataUriForImage;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Base64;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DataUriEncodingTest {
 
     @Test
-    public void testDataUriEncode() throws IOException, URISyntaxException {
+    public void testDataUriEncode() {
 
         // Source data : 
         // 1×1 white px PNG image base64 encoded :

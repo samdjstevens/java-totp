@@ -1,9 +1,9 @@
 package dev.samstevens.totp.time;
 
 import dev.samstevens.totp.exceptions.TimeProviderException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.net.UnknownHostException;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NtpTimeProviderTest {
 
@@ -16,31 +16,28 @@ public class NtpTimeProviderTest {
         assertEquals(10, String.valueOf(currentTime).length());
     }
 
-    @Test(expected = UnknownHostException.class)
-    public void testUnknownHostThrowsException() throws UnknownHostException {
-        new NtpTimeProvider("sdfsf/safsf");
+    @Test
+    public void testUnknownHostThrowsException() {
+        assertThrows(UnknownHostException.class, () -> {
+            new NtpTimeProvider("sdfsf/safsf");
+        });
     }
 
-    @Test(expected = TimeProviderException.class)
+    @Test
     public void testNonNtpHostThrowsException() throws UnknownHostException {
-        try {
-            TimeProvider time = new NtpTimeProvider("www.example.com");
-            time.getTime();
-        } catch (TimeProviderException e) {
-            // Assert there is a cause for the exception
-            assertNotNull(e.getCause());
-            throw e;
-        }
+        TimeProvider time = new NtpTimeProvider("www.example.com");
+
+        TimeProviderException e = assertThrows(TimeProviderException.class, time::getTime);
+        assertNotNull(e.getCause());
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testRequiresDependency() throws UnknownHostException {
-        try {
+    @Test
+    public void testRequiresDependency() {
+        RuntimeException e = assertThrows(RuntimeException.class, () -> {
             // Use package-private constructor to test depending on a non-existing "fake.class.Here" class
-            TimeProvider time = new NtpTimeProvider("www.example.com", "fake.class.Here");
-        } catch (RuntimeException e) {
-            assertEquals("The Apache Commons Net library must be on the classpath to use the NtpTimeProvider.", e.getMessage());
-            throw e;
-        }
+            new NtpTimeProvider("www.example.com", "fake.class.Here");
+        });
+
+        assertEquals("The Apache Commons Net library must be on the classpath to use the NtpTimeProvider.", e.getMessage());
     }
 }
