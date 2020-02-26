@@ -28,7 +28,7 @@ public class RecoveryCodeGeneratorTest {
 
         // Assert each one is the correct format
         for (String code : codes) {
-            assertTrue(code.matches("[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}"));
+            assertTrue(code.matches("[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}"), code);
         }
     }
 
