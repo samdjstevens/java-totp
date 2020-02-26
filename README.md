@@ -230,13 +230,22 @@ Usually, upon registering an account for MFA, several one-time use codes will be
 
 Most of the logic needed for implementing recovery codes (storage, associating them with a user, checking for existance, etc) is implementation specific, but the codes themselves can be generated via this library.
 
+The default implementation provided in this library generates recovery codes :
+
+- of 16 characters
+- composed of numbers and lower case characters from latin alphabet (for a total of 36 possible characters)
+- split in groups separated with dash for better readability
+
+Thoses settings guarantees recovery codes security (with an entropy of 82 bits) while keeping codes simple to read and enter by end user when needed.
+
+
 ```java
 import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
 ...
 // Generate 16 random recovery codes
 RecoveryCodeGenerator recoveryCodes = new RecoveryCodeGenerator();
 String[] codes = recoveryCodes.generateCodes(16);
-// codes = ["efixm-g7fds", "4u3uc-xij2u", "vba7i-3fpny", "cmxf4-shn26", ...]
+// codes = ["tf8i-exmo-3lcb-slkm", "boyv-yq75-z99k-r308", "w045-mq6w-mg1i-q12o", ...]
 ```
 
 
