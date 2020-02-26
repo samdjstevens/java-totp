@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
-public class RecoveryCodeGenerator {
+public final class RecoveryCodeGenerator {
 
     // Recovery code must reach a minimum entropy to be secured
     //   code entropy = log( {characters-count} ^ {code-length} ) / log(2)

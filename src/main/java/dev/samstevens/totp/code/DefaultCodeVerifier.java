@@ -3,7 +3,7 @@ package dev.samstevens.totp.code;
 import dev.samstevens.totp.exceptions.CodeGenerationException;
 import dev.samstevens.totp.time.TimeProvider;
 
-public class DefaultCodeVerifier implements CodeVerifier {
+public final class DefaultCodeVerifier implements CodeVerifier {
 
     private final CodeGenerator codeGenerator;
     private final TimeProvider timeProvider;

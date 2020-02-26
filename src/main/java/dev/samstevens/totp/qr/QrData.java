@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings("WeakerAccess")
-public class QrData {
+public final class QrData {
 
     private final String type;
     private final String label;
