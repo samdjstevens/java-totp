@@ -2,19 +2,34 @@ package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import java.security.InvalidParameterException;
+import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class DefaultCodeGeneratorTest {
 
-    @Test
-    public void testCodeIsGenerated() throws CodeGenerationException {
+    @ParameterizedTest
+    @MethodSource("expectedCodesProvider")
+    public void testCodeIsGenerated(String secret, int time, HashingAlgorithm algorithm, String expectedCode) throws CodeGenerationException {
+        String code = generateCode(algorithm, secret, time);
 
-        String secret = "W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY";
-        int time = 1567631536;
-        String code = generateCode(secret, time);
+        assertEquals(expectedCode, code);
+    }
 
-        assertEquals("870366", code);
+    static Stream<Arguments> expectedCodesProvider() {
+        return Stream.of(
+            arguments("W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY", 1567631536, HashingAlgorithm.SHA1, "082371"),
+            arguments("W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY", 1567631536, HashingAlgorithm.SHA256, "272978"),
+            arguments("W3C5B3WKR4AUKFVWYU2WNMYB756OAKWY", 1567631536, HashingAlgorithm.SHA512, "325200"),
+
+            arguments("makrzl2hict4ojeji2iah4kndmq6sgka", 1582750403, HashingAlgorithm.SHA1, "848586"),
+            arguments("makrzl2hict4ojeji2iah4kndmq6sgka", 1582750403, HashingAlgorithm.SHA256, "965726"),
+            arguments("makrzl2hict4ojeji2iah4kndmq6sgka", 1582750403, HashingAlgorithm.SHA512, "741306")
+        );
     }
 
     @Test
@@ -55,8 +70,10 @@ public class DefaultCodeGeneratorTest {
         assertNotNull(e.getCause());
     }
 
-    private String generateCode(String secret, int time) throws CodeGenerationException {
-        DefaultCodeGenerator g = new DefaultCodeGenerator();
-        return g.generate(secret, time);
+
+    private String generateCode(HashingAlgorithm algorithm, String secret, int time) throws CodeGenerationException {
+        long currentBucket = Math.floorDiv(time, 30);
+        DefaultCodeGenerator g = new DefaultCodeGenerator(algorithm);
+        return g.generate(secret, currentBucket);
     }
 }

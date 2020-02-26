@@ -68,7 +68,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
      * Get the n-digit code for a given hash.
      */
     private String getDigitsFromHash(byte[] hash) {
-        int offset = hash[20 - 1] & 0xF;
+        int offset = hash[hash.length - 1] & 0xF;
 
         long truncatedHash = 0;
 
