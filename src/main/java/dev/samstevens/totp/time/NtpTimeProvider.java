@@ -6,7 +6,7 @@ import org.apache.commons.net.ntp.TimeInfo;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class NtpTimeProvider implements TimeProvider {
+public final class NtpTimeProvider implements TimeProvider {
 
     private final NTPUDPClient client;
     private final InetAddress ntpHost;
