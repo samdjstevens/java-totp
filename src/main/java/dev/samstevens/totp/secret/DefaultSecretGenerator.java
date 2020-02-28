@@ -4,7 +4,7 @@ import org.apache.commons.codec.binary.Base32;
 import java.security.SecureRandom;
 
 @SuppressWarnings("WeakerAccess")
-public final class DefaultSecretGenerator implements SecretGenerator {
+public class DefaultSecretGenerator implements SecretGenerator {
 
     private final SecureRandom randomBytes = new SecureRandom();
     private final static Base32 encoder = new Base32();

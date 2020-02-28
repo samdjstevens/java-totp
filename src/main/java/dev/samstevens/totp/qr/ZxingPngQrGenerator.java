@@ -8,7 +8,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 import java.io.ByteArrayOutputStream;
 
-public final class ZxingPngQrGenerator implements QrGenerator {
+public class ZxingPngQrGenerator implements QrGenerator {
 
     private final Writer writer;
     private int imageSize = 350;

@@ -8,7 +8,7 @@ import java.security.InvalidKeyException;
 import java.security.InvalidParameterException;
 import java.security.NoSuchAlgorithmException;
 
-public final class DefaultCodeGenerator implements CodeGenerator {
+public class DefaultCodeGenerator implements CodeGenerator {
 
     private final HashingAlgorithm algorithm;
     private final int digits;

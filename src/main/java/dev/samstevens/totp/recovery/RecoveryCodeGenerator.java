@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
-public final class RecoveryCodeGenerator {
+public class RecoveryCodeGenerator {
 
     private Random random = new SecureRandom();
     private Base32 codec = new Base32();
