@@ -14,6 +14,12 @@ Inspired by [PHP library for Two Factor Authentication](https://github.com/RobTh
 
 
 
+## Spring Boot
+
+The quickest way to start using this library in a Spring Boot project is to require the TOTP Spring Boot Starter. See [Using Java-TOTP with Spring Boot](totp-spring-boot-starter/README.md) for more information, or read on to learn about the library.
+
+
+
 ## Installation
 
 #### Maven
@@ -24,7 +30,7 @@ To add this library to your java project using Maven, add the following dependen
 <dependency>
   <groupId>dev.samstevens.totp</groupId>
   <artifactId>totp</artifactId>
-  <version>1.6.1</version>
+  <version>1.7-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -34,7 +40,7 @@ To add the dependency using Gradle, add the following to the build script:
 
 ```
 dependencies {
-  compile 'dev.samstevens.totp:totp:1.6.1'
+  compile 'dev.samstevens.totp:totp:1.7-SNAPSHOT'
 }
 ```
 

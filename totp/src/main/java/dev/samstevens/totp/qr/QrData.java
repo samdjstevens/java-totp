@@ -30,6 +30,34 @@ public class QrData {
         this.period = period;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public String getIssuer() {
+        return issuer;
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public int getDigits() {
+        return digits;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
     /**
      * @return The URI/message to encode into the QR image, in the format specified here:
      * https://github.com/google/google-authenticator/wiki/Key-Uri-Format

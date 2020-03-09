@@ -70,7 +70,6 @@ public class DefaultCodeGeneratorTest {
         assertNotNull(e.getCause());
     }
 
-
     private String generateCode(HashingAlgorithm algorithm, String secret, int time) throws CodeGenerationException {
         long currentBucket = Math.floorDiv(time, 30);
         DefaultCodeGenerator g = new DefaultCodeGenerator(algorithm);
