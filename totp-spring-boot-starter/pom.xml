@@ -6,7 +6,7 @@
   <parent>
     <groupId>dev.samstevens.totp</groupId>
     <artifactId>totp-parent</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7</version>
   </parent>
 
   <name>${project.groupId}:${project.artifactId}</name>
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>totp</artifactId>
-      <version>1.7-SNAPSHOT</version>
+      <version>1.7</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
