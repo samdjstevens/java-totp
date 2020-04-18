@@ -3,6 +3,7 @@ package dev.samstevens.totp.code;
 import dev.samstevens.totp.exceptions.CodeGenerationException;
 import dev.samstevens.totp.time.TimeProvider;
 import org.junit.jupiter.api.Test;
+import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +44,23 @@ public class DefaultCodeVerifierTest {
 
 
         assertEquals(false, verifier.isValidCode(secret, "1234"));
+    }
+
+    @Test
+    public void testConsecutiveCodesAreValid() {
+        String secret = "EX47GINFPBK5GNLYLILGD2H6ZLGJNNWB";
+        String firstCode = "401619";
+        String secondCode = "862707";
+        String thirdCode = "927139";
+
+        TimeProvider timeProvider = mock(TimeProvider.class);
+        when(timeProvider.getTime()).thenReturn(1567975936L);
+
+        DefaultCodeVerifier verifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), timeProvider);
+        verifier.setAllowedTimePeriodDuration(Duration.ofHours(24));
+
+        boolean result = verifier.areValidCodes(secret, firstCode, secondCode, thirdCode);
+        assertTrue(result);
     }
 
     private boolean isValidCode(String secret, String code, long time, int timePeriod) {
