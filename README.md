@@ -161,7 +161,7 @@ The one time password codes generated in the authenticator apps only last for a 
 By default on a `DefaultCodeVerifier` the time period is set to the standard 30 seconds, and the discrepancy to 1, to allow a time drift of +/-30 seconds. These values can be changed by calling the appropriate setters:
 
 ```java
-CodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
+DefaultCodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
 // sets the time period for codes to be valid for to 60 seconds
 verifier.setTimePeriod(60);
 
