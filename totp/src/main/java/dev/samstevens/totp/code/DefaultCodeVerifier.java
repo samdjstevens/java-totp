@@ -34,33 +34,28 @@ public class DefaultCodeVerifier implements CodeVerifier {
     }
 
     @Override
+    @Deprecated
     public boolean isValidCode(String secret, String code) {
-        // Get the current number of seconds since the epoch and
-        // calculate the number of time periods passed.
-        long currentBucket = Math.floorDiv(timeProvider.getTime(), timePeriod);
-
-        // Calculate and compare the codes for all the "valid" time periods,
-        // even if we get an early match, to avoid timing attacks
-        boolean success = false;
-        for (int i = -allowedTimePeriodDiscrepancy; i <= allowedTimePeriodDiscrepancy; i++) {
-            success = checkCode(secret, currentBucket + i, code) || success;
-        }
-
-        return success;
+       return verifyCode(secret, code).isValid();
     }
 
+    @Override
+    public VerifyResult verifyCode(String secret, String code) {
+        return verifyConsecutiveCodes(secret, code);
+    }
 
-    public boolean areValidCodes(String secret, String... codes) {
+    @Override
+    public VerifyResult verifyConsecutiveCodes(String secret, String... codes) {
         // Get the current number of seconds since the epoch and
         // calculate the number of time periods passed.
         long currentBucket = Math.floorDiv(timeProvider.getTime(), timePeriod);
 
         // Calculate and compare the codes for all the "valid" time periods,
         // even if we get an early match, to avoid timing attacks
-        boolean success = false;
-        int successiveMatches = 0;
-        int currentCodeBeingChecked = 0;
 
+        boolean success = false;
+        int currentCodeBeingChecked = 0;
+        int firstCodeMatchTimePeriod = 0;
 
         boolean isValid;
         for (int i = -allowedTimePeriodDiscrepancy; i <= allowedTimePeriodDiscrepancy; i++) {
@@ -76,14 +71,14 @@ public class DefaultCodeVerifier implements CodeVerifier {
                 }
             }
 
-            System.out.println(currentCodeBeingChecked);
             if (!success && currentCodeBeingChecked == codes.length) {
                 success = true;
                 currentCodeBeingChecked = 0;
+                firstCodeMatchTimePeriod = i - codes.length + 1;
             }
         }
 
-        return success;
+        return new VerifyResult(success, firstCodeMatchTimePeriod);
     }
 
     /**

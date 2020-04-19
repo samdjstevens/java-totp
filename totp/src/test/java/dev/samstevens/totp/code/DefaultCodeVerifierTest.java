@@ -49,9 +49,9 @@ public class DefaultCodeVerifierTest {
     @Test
     public void testConsecutiveCodesAreValid() {
         String secret = "EX47GINFPBK5GNLYLILGD2H6ZLGJNNWB";
-        String firstCode = "401619";
-        String secondCode = "862707";
-        String thirdCode = "927139";
+        String firstCode = "092231";
+        String secondCode = "517872";
+        String thirdCode = "398601";
 
         TimeProvider timeProvider = mock(TimeProvider.class);
         when(timeProvider.getTime()).thenReturn(1567975936L);
@@ -59,8 +59,9 @@ public class DefaultCodeVerifierTest {
         DefaultCodeVerifier verifier = new DefaultCodeVerifier(new DefaultCodeGenerator(), timeProvider);
         verifier.setAllowedTimePeriodDuration(Duration.ofHours(24));
 
-        boolean result = verifier.areValidCodes(secret, firstCode, secondCode, thirdCode);
-        assertTrue(result);
+        VerifyResult r = verifier.verifyConsecutiveCodes(secret, firstCode, secondCode, thirdCode);
+        assertTrue(r.isValid());
+        assertEquals(-2550, r.getTimePeriodDifference());
     }
 
     private boolean isValidCode(String secret, String code, long time, int timePeriod) {
