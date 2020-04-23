@@ -61,7 +61,7 @@ public class DefaultCodeVerifierTest {
 
         VerifyResult r = verifier.verifyConsecutiveCodes(secret, firstCode, secondCode, thirdCode);
         assertTrue(r.isValid());
-        assertEquals(-2550, r.getTimePeriodDifference());
+        assertEquals(-76500, r.getTimeDrift().getSeconds());
     }
 
     private boolean isValidCode(String secret, String code, long time, int timePeriod) {
