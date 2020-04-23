@@ -1,19 +1,22 @@
 package dev.samstevens.totp.code;
 
+import java.time.Duration;
+
 public class VerifyResult {
     private final boolean isValid;
-    private final int timePeriodDifference;
+    private final Duration timeDrift;
 
-    public VerifyResult(boolean isValid, int timePeriodDifference) {
+    public VerifyResult(boolean isValid, Duration timeDrift) {
         this.isValid = isValid;
-        this.timePeriodDifference = timePeriodDifference;
+        this.timeDrift = timeDrift;
     }
 
     public boolean isValid() {
         return isValid;
     }
 
-    public int getTimePeriodDifference() {
-        return timePeriodDifference;
+    public Duration getTimeDrift()
+    {
+        return timeDrift;
     }
 }

@@ -78,7 +78,7 @@ public class DefaultCodeVerifier implements CodeVerifier {
             }
         }
 
-        return new VerifyResult(success, firstCodeMatchTimePeriod);
+        return new VerifyResult(success, getTimeDrift(firstCodeMatchTimePeriod));
     }
 
     /**
@@ -110,5 +110,10 @@ public class DefaultCodeVerifier implements CodeVerifier {
         }
 
         return result == 0;
+    }
+
+    private Duration getTimeDrift(int bucketDifferential)
+    {
+        return Duration.ofSeconds(bucketDifferential * timePeriod);
     }
 }
