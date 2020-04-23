@@ -274,6 +274,23 @@ To run the tests for the library with Maven, run `mvn test`.
 
 
 
+## Changelog
+
+All notable changes to the project will be documented here.
+
+### v1.8 - 2020-04-24
+#### Added
+
+- New method to verify multiple consecutive codes.
+- New method to set the time period discrepancy by supplying a time duration object.
+- Abilty to get the time drift between user & server for valid codes.
+- Changelog section to README.
+
+#### Changed
+
+- Deprecated `isValidCode` method in favour of new `verifyCode` method.
+
+
 
 ## License
 
