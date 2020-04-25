@@ -5,6 +5,7 @@ import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.Instant;
 
 public class NtpTimeProvider implements TimeProvider {
 
@@ -36,11 +37,11 @@ public class NtpTimeProvider implements TimeProvider {
     }
 
     @Override
-    public long getTime() throws TimeProviderException {
+    public Instant getTime() throws TimeProviderException {
         try {
             TimeInfo timeInfo = client.getTime(ntpHost);
 
-            return (long) Math.floor(timeInfo.getReturnTime() / 1000L);
+            return Instant.ofEpochSecond((long) Math.floor(timeInfo.getReturnTime() / 1000L));
         } catch (Exception e) {
             throw new TimeProviderException("Failed to provide time from NTP server. See nested exception.", e);
         }

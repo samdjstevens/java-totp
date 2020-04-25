@@ -10,7 +10,7 @@ public class NtpTimeProviderTest {
     @Test
     public void testProvidesTime() throws UnknownHostException {
         TimeProvider time = new NtpTimeProvider("pool.ntp.org");
-        long currentTime = time.getTime();
+        long currentTime = time.getTime().getEpochSecond();
 
         // epoch should be 10 digits for the foreseeable future...
         assertEquals(10, String.valueOf(currentTime).length());

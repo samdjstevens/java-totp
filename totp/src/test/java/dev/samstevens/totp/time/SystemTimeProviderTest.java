@@ -11,7 +11,7 @@ public class SystemTimeProviderTest {
     {
         long currentTime = Instant.now().getEpochSecond();
         TimeProvider time = new SystemTimeProvider();
-        long providedTime = time.getTime();
+        long providedTime = time.getTime().getEpochSecond();
 
         // allow +=5 second discrepancy for test environments
         assertTrue(currentTime - 5 <= providedTime);

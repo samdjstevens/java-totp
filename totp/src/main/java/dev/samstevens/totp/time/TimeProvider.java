@@ -1,10 +1,11 @@
 package dev.samstevens.totp.time;
 
 import dev.samstevens.totp.exceptions.TimeProviderException;
+import java.time.Instant;
 
 public interface TimeProvider {
     /**
-     * @return The number of seconds since Jan 1st 1970, 00:00:00 UTC.
+     * @return The current time as an Instant object.
      */
-    long getTime() throws TimeProviderException;
+    Instant getTime() throws TimeProviderException;
 }
