@@ -1,6 +1,7 @@
 package dev.samstevens.totp.time;
 
 import org.junit.jupiter.api.Test;
+import java.time.Duration;
 import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,15 +10,16 @@ public class SystemTimeProviderTest {
     @Test
     public void testProvidesTime()
     {
-        long currentTime = Instant.now().getEpochSecond();
-        TimeProvider time = new SystemTimeProvider();
-        long providedTime = time.getTime().getEpochSecond();
+        Instant currentTime = Instant.now();
 
-        // allow +=5 second discrepancy for test environments
-        assertTrue(currentTime - 5 <= providedTime);
-        assertTrue(providedTime <= currentTime + 5);
+        TimeProvider time = new SystemTimeProvider();
+        Instant providedTime = time.getTime();
+
+        // allow +/-3 second discrepancy for test environments
+        Duration difference = Duration.between(currentTime, providedTime);
+        assertTrue(Math.abs(difference.getSeconds()) < 3);
 
         // epoch should be 10 digits for the foreseeable future...
-        assertEquals(10, String.valueOf(currentTime).length());
+        assertEquals(10, String.valueOf(providedTime.getEpochSecond()).length());
     }
 }

@@ -5,7 +5,7 @@ import java.time.Instant;
 
 public interface TimeProvider {
     /**
-     * @return The current time as an Instant object.
+     * @return The current time represented as an Instant object.
      */
     Instant getTime() throws TimeProviderException;
 }
