@@ -52,11 +52,6 @@ public class DefaultCodeGenerator implements CodeGenerator {
     }
 
     @Override
-    public GeneratedCode generate(String key, Instant atTime) throws CodeGenerationException {
-        return generate(key, atTime, 0).get(0);
-    }
-
-    @Override
     public List<GeneratedCode> generate(String key, Instant atTime, int howManyBeforeAndAfter) throws CodeGenerationException {
         if (howManyBeforeAndAfter < 0) {
             throw new InvalidParameterException("Number of codes before and after to generate must be greater or equal to zero.");
