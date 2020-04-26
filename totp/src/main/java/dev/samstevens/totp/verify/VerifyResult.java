@@ -1,4 +1,4 @@
-package dev.samstevens.totp.code;
+package dev.samstevens.totp.verify;
 
 import java.time.Duration;
 
