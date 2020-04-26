@@ -5,6 +5,7 @@ import dev.samstevens.totp.code.HashingAlgorithm;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 @SuppressWarnings("WeakerAccess")
 public class QrData {
@@ -15,12 +16,12 @@ public class QrData {
     private final String issuer;
     private final String algorithm;
     private final int digits;
-    private final int period;
+    private final Duration period;
 
     /**
      * Force use of builder to create instances.
      */
-    private QrData(String type, String label, String secret, String issuer, String algorithm, int digits, int period) {
+    private QrData(String type, String label, String secret, String issuer, String algorithm, int digits, Duration period) {
         this.type = type;
         this.label = label;
         this.secret = secret;
@@ -54,7 +55,7 @@ public class QrData {
         return digits;
     }
 
-    public int getPeriod() {
+    public Duration getPeriod() {
         return period;
     }
 
@@ -70,7 +71,7 @@ public class QrData {
                 "&issuer=" + uriEncode(issuer) +
                 "&algorithm=" + uriEncode(algorithm) +
                 "&digits=" + digits +
-                "&period=" + period;
+                "&period=" + period.getSeconds();
     }
 
     private String uriEncode(String text)  {
@@ -93,7 +94,7 @@ public class QrData {
         private String issuer;
         private HashingAlgorithm algorithm = HashingAlgorithm.SHA1;
         private int digits = 6;
-        private int period = 30;
+        private Duration period = Duration.ofSeconds(30);
 
         public Builder label(String label) {
             this.label = label;
@@ -120,7 +121,7 @@ public class QrData {
             return this;
         }
 
-        public Builder period(int period) {
+        public Builder period(Duration period) {
             this.period = period;
             return this;
         }

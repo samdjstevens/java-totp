@@ -7,12 +7,10 @@ public class TotpProperties {
 
     private static final int DEFAULT_SECRET_LENGTH = 32;
     private static final int DEFAULT_CODE_LENGTH = 6;
-    private static final int DEFAULT_TIME_PERIOD = 30;
-    private static final int DEFAULT_TIME_DISCREPANCY = 1;
+    private static final int DEFAULT_CODE_VALIDITY_SECONDS = 30;
 
     private final Secret secret = new Secret();
     private final Code code = new Code();
-    private final Time time = new Time();
 
     public Secret getSecret() {
         return secret;
@@ -20,10 +18,6 @@ public class TotpProperties {
 
     public Code getCode() {
         return code;
-    }
-
-    public Time getTime() {
-        return time;
     }
 
     public static class Secret {
@@ -40,6 +34,7 @@ public class TotpProperties {
 
     public static class Code {
         private int length = DEFAULT_CODE_LENGTH;
+        private int validitySeconds = DEFAULT_CODE_VALIDITY_SECONDS;
 
         public int getLength() {
             return length;
@@ -48,26 +43,13 @@ public class TotpProperties {
         public void setLength(int length) {
             this.length = length;
         }
-    }
 
-    public static class Time {
-        private int period = DEFAULT_TIME_PERIOD;
-        private int discrepancy = DEFAULT_TIME_DISCREPANCY;
-
-        public int getPeriod() {
-            return period;
+        public int getValiditySeconds() {
+            return validitySeconds;
         }
 
-        public void setPeriod(int period) {
-            this.period = period;
-        }
-
-        public int getDiscrepancy() {
-            return discrepancy;
-        }
-
-        public void setDiscrepancy(int discrepancy) {
-            this.discrepancy = discrepancy;
+        public void setValiditySeconds(int validitySeconds) {
+            this.validitySeconds = validitySeconds;
         }
     }
 }
