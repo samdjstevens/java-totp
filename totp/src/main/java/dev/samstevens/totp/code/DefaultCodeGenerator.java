@@ -7,37 +7,104 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.InvalidParameterException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultCodeGenerator implements CodeGenerator {
 
+    private final static int DEFAULT_DIGITS_LENGTH = 6;
+    private final static Duration DEFAULT_VALIDITY_DURATION = Duration.ofSeconds(30);
+
     private final HashingAlgorithm algorithm;
     private final int digits;
+    private final long validitySeconds;
 
     public DefaultCodeGenerator() {
-        this(HashingAlgorithm.SHA1, 6);
+        this(HashingAlgorithm.SHA1, DEFAULT_DIGITS_LENGTH, DEFAULT_VALIDITY_DURATION);
     }
 
     public DefaultCodeGenerator(HashingAlgorithm algorithm) {
-        this(algorithm, 6);
+        this(algorithm, DEFAULT_DIGITS_LENGTH, DEFAULT_VALIDITY_DURATION);
     }
 
     public DefaultCodeGenerator(HashingAlgorithm algorithm, int digits) {
+        this(algorithm, digits, DEFAULT_VALIDITY_DURATION);
+    }
+
+    public DefaultCodeGenerator(HashingAlgorithm algorithm, int digits, Duration codeValidityDuration) {
         if (algorithm == null) {
             throw new InvalidParameterException("HashingAlgorithm must not be null.");
         }
+
         if (digits < 1) {
             throw new InvalidParameterException("Number of digits must be higher than 0.");
         }
 
+        if (codeValidityDuration.getSeconds() < 1) {
+            throw new InvalidParameterException("Number of seconds codes are valid for must be at least 1.");
+        }
+
         this.algorithm = algorithm;
         this.digits = digits;
+        this.validitySeconds = codeValidityDuration.getSeconds();
     }
 
     @Override
-    public String generate(String key, long counter) throws CodeGenerationException {
+    public List<GeneratedCode> generate(String key, Instant atTime, int howManyBeforeAndAfter) throws CodeGenerationException {
+        if (howManyBeforeAndAfter < 0) {
+            throw new InvalidParameterException("Number of codes before and after to generate must be greater or equal to zero.");
+        }
+
+        long counter = getCounterForTime(atTime);
+        long startCounter = counter - howManyBeforeAndAfter;
+        long endCounter = counter + howManyBeforeAndAfter;
+
+        return generateCodesForCounterRange(key, startCounter, endCounter);
+    }
+
+    @Override
+    public List<GeneratedCode> generateBetween(String key, Instant startTime, Instant endTime) throws CodeGenerationException {
+        if (endTime.isBefore(startTime)) {
+            throw new InvalidParameterException("End time must be after start time.");
+        }
+
+        long startCounter = getCounterForTime(startTime);
+        long endCounter = getCounterForTime(endTime);
+
+        return generateCodesForCounterRange(key, startCounter, endCounter);
+    }
+
+    /**
+     * Get the counter value used to generate the hash for the given time.
+     */
+    private long getCounterForTime(Instant time) {
+        return Math.floorDiv(time.getEpochSecond(), validitySeconds);
+    }
+
+    /**
+     * Create the list of GeneratedCode objects for a given key & start/end counters.
+     */
+    private List<GeneratedCode> generateCodesForCounterRange(String key, long startCounter, long endCounter) throws CodeGenerationException {
+        List<GeneratedCode> codes = new ArrayList<>();
+        for (long i = startCounter; i <= endCounter; i++) {
+            codes.add(generateForCounter(key, i));
+        }
+
+        return codes;
+    }
+
+    /**
+     * Create the GeneratedCode object for a given key & counter.
+     */
+    private GeneratedCode generateForCounter(String key, long counter) throws CodeGenerationException {
         try {
             byte[] hash = generateHash(key, counter);
-            return getDigitsFromHash(hash);
+            String digits = getDigitsFromHash(hash);
+            ValidityPeriod validity = getValidityPeriodFromTime(counter);
+
+            return new GeneratedCode(digits, validity);
         } catch (Exception e) {
             throw new CodeGenerationException("Failed to generate code. See nested exception.", e);
         }
@@ -82,5 +149,15 @@ public class DefaultCodeGenerator implements CodeGenerator {
 
         // Left pad with 0s for a n-digit code
         return String.format("%0" + digits + "d", truncatedHash);
+    }
+
+    /**
+     * Get the period of time (start and end Instants) that the code for a given counter is valid for.
+     */
+    private ValidityPeriod getValidityPeriodFromTime(long counter) {
+        long startTimeSeconds = counter * validitySeconds;
+        long endTimeSeconds = startTimeSeconds + validitySeconds - 1;
+
+        return new ValidityPeriod(Instant.ofEpochSecond(startTimeSeconds), Instant.ofEpochSecond(endTimeSeconds));
     }
 }

@@ -10,12 +10,15 @@ import dev.samstevens.totp.secret.DefaultSecretGenerator;
 import dev.samstevens.totp.secret.SecretGenerator;
 import dev.samstevens.totp.time.SystemTimeProvider;
 import dev.samstevens.totp.time.TimeProvider;
+import dev.samstevens.totp.verify.CodeVerifier;
+import dev.samstevens.totp.verify.DefaultCodeVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import java.time.Duration;
 
 @Configuration
 @ConditionalOnClass(TotpInfo.class)
@@ -51,7 +54,7 @@ public class TotpAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public QrDataFactory qrDataFactory(HashingAlgorithm hashingAlgorithm) {
-        return new QrDataFactory(hashingAlgorithm, getCodeLength(), getTimePeriod());
+        return new QrDataFactory(hashingAlgorithm, getCodeLength(), getCodeValidityDuration());
     }
 
     @Bean
@@ -63,17 +66,13 @@ public class TotpAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public CodeGenerator codeGenerator(HashingAlgorithm algorithm) {
-        return new DefaultCodeGenerator(algorithm, getCodeLength());
+        return new DefaultCodeGenerator(algorithm, getCodeLength(), getCodeValidityDuration());
     }
 
     @Bean
     @ConditionalOnMissingBean
     public CodeVerifier codeVerifier(CodeGenerator codeGenerator, TimeProvider timeProvider) {
-        DefaultCodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
-        verifier.setTimePeriod(getTimePeriod());
-        verifier.setAllowedTimePeriodDiscrepancy(props.getTime().getDiscrepancy());
-
-        return verifier;
+        return new DefaultCodeVerifier(codeGenerator, timeProvider);
     }
 
     @Bean
@@ -86,7 +85,7 @@ public class TotpAutoConfiguration {
         return props.getCode().getLength();
     }
 
-    private int getTimePeriod() {
-        return props.getTime().getPeriod();
+    private Duration getCodeValidityDuration() {
+        return Duration.ofSeconds(props.getCode().getValiditySeconds());
     }
 }

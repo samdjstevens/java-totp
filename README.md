@@ -139,10 +139,22 @@ CodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
 
 // secret = the shared secret for the user
 // code = the code submitted by the user
-boolean successful = verifier.isValidCode(secret, code)
+VerifyResult result = verifier.verifyCode(secret, code);
+boolean isValid = result.isValid();
+int timePeriodDifference = result.getTimePeriodDifference();
 ```
 
 This same process is used when verifying the submitted code every time the user needs to in the future.
+
+#### Verifying multiple consecutive codes
+
+```java
+// secret = the shared secret for the user
+// code = the code submitted by the user
+VerifyResult result = verifier.verifyConsecutiveCodes(secret, firstCode, secondCode, thirdCode...);
+boolean isValid = result.isValid();
+int timePeriodDifference = result.getTimePeriodDifference();
+```
 
 #### Using different hashing algorithms
 
@@ -260,6 +272,23 @@ String[] codes = recoveryCodes.generateCodes(16);
 
 To run the tests for the library with Maven, run `mvn test`.
 
+
+
+## Changelog
+
+All notable changes to the project will be documented here.
+
+### v1.8 - 2020-04-24
+#### Added
+
+- New method to verify multiple consecutive codes.
+- New method to set the time period discrepancy by supplying a time duration object.
+- Abilty to get the time drift between user & server for valid codes.
+- Changelog section to README.
+
+#### Changed
+
+- Deprecated `isValidCode` method in favour of new `verifyCode` method.
 
 
 

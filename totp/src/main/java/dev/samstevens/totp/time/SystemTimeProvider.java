@@ -5,7 +5,7 @@ import java.time.Instant;
 
 public class SystemTimeProvider implements TimeProvider {
     @Override
-    public long getTime() throws TimeProviderException {
-        return Instant.now().getEpochSecond();
+    public Instant getTime() throws TimeProviderException {
+        return Instant.now();
     }
 }

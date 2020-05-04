@@ -83,7 +83,7 @@ public class MfaVerifyController {
     public String verify(@RequestParam String code) {
         // secret is fetched from some storage
 
-        if (verifier.isValidCode(secret, code)) {
+        if (verifier.verifyCode(secret, code).isValid()) {
             return "CORRECT CODE";
         }
 

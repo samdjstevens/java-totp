@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import static dev.samstevens.totp.IOUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -25,7 +26,7 @@ public class ZxingPngQrGeneratorTest {
                 .secret("EX47GINFPBK5GNLYLILGD2H6ZLGJNNWB")
                 .issuer("AppName")
                 .digits(6)
-                .period(30)
+                .period(Duration.ofSeconds(30))
                 .build();
 
         writeFile(generator.generate(data), "./test_qr.png");
@@ -78,7 +79,7 @@ public class ZxingPngQrGeneratorTest {
                 .secret("EX47GINFPBK5GNLYLILGD2H6ZLGJNNWB")
                 .issuer("AppName")
                 .digits(6)
-                .period(30)
+                .period(Duration.ofSeconds(30))
                 .build();
     }
 }

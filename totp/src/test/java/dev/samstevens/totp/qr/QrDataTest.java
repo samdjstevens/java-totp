@@ -2,6 +2,7 @@ package dev.samstevens.totp.qr;
 
 import dev.samstevens.totp.code.HashingAlgorithm;
 import org.junit.jupiter.api.Test;
+import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QrDataTest {
@@ -14,7 +15,7 @@ public class QrDataTest {
                 .issuer("AppName AppCorp")
                 .algorithm(HashingAlgorithm.SHA256)
                 .digits(6)
-                .period(30)
+                .period(Duration.ofSeconds(30))
                 .build();
 
         assertEquals(
@@ -31,7 +32,7 @@ public class QrDataTest {
                 .issuer("AppName AppCorp")
                 .algorithm(HashingAlgorithm.SHA256)
                 .digits(6)
-                .period(30)
+                .period(Duration.ofSeconds(30))
                 .build();
 
         assertEquals(
