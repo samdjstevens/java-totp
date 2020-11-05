@@ -37,13 +37,19 @@ public class NtpTimeProvider implements TimeProvider {
 
     @Override
     public long getTime() throws TimeProviderException {
+        TimeInfo timeInfo;
         try {
-            TimeInfo timeInfo = client.getTime(ntpHost);
-
-            return (long) Math.floor(timeInfo.getReturnTime() / 1000L);
+            timeInfo = client.getTime(ntpHost);
+            timeInfo.computeDetails();
         } catch (Exception e) {
             throw new TimeProviderException("Failed to provide time from NTP server. See nested exception.", e);
         }
+
+        if (timeInfo.getOffset() == null) {
+            throw new TimeProviderException("Failed to calculate NTP offset");
+        }
+
+        return (System.currentTimeMillis() + timeInfo.getOffset()) / 1000;
     }
 
     private void checkHasDependency(String dependentClass) {
