@@ -46,7 +46,7 @@ public class NtpTimeProvider implements TimeProvider {
         }
 
         if (timeInfo.getOffset() == null) {
-            throw new TimeProviderException("Failed to calculate NTP offset", null);
+            throw new TimeProviderException("Failed to calculate NTP offset");
         }
 
         return (System.currentTimeMillis() + timeInfo.getOffset()) / 1000;
