@@ -12,7 +12,7 @@ To get started using the library in a Spring Boot project, add the `totp-spring-
 <dependency>
   <groupId>dev.samstevens.totp</groupId>
   <artifactId>totp-spring-boot-starter</artifactId>
-  <version>1.7</version>
+  <version>1.7.1</version>
 </dependency>
 ```
 
@@ -20,7 +20,7 @@ To get started using the library in a Spring Boot project, add the `totp-spring-
 
 ```
 dependencies {
-  compile 'dev.samstevens.totp:totp-spring-boot-starter:1.7'
+  compile 'dev.samstevens.totp:totp-spring-boot-starter:1.7.1'
 }
 ```
 
