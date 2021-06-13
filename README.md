@@ -244,14 +244,24 @@ The default implementation provided in this library generates recovery codes :
 
 Thoses settings guarantees recovery codes security (with an entropy of 82 bits) while keeping codes simple to read and enter by end user when needed.
 
-
+```java
+import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
+...
+// Generate 16 random recovery codes
+RecoveryCodeGenerator recoveryCodes = new RecoveryCodeGenerator();
+String[] codes = recoveryCodes.generateCodes(16);
+// codes = ["tf8i-exmo-3lcb-slkm", "boyv-yq75-z99k-r308", "w045-mq6w-mg1i-q12o", ...]
+```  
+  
+OR with Differentiated Recovery Codes
+  
 ```java
 import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
 import dev.samstevens.totp.recovery.CodePack;
 ...
 // Generate 16 random recovery codes
 RecoveryCodeGenerator recoveryCodes = new RecoveryCodeGenerator();
-CodePack[] codes = recoveryCodes.generateCodes(16);
+CodePack[] codes = recoveryCodes.generateDifferentiatedCodes(16);
 // codes = [CodePack Object1, CodePack Object2, CodePack Object3, ...]
 // Object1.actualCode ="tf8iexmo3lcbslkm"
 // Object1.readableCode="tf8i-exmo-3lcb-slkm"
@@ -273,7 +283,7 @@ RecoveryCodeGenerator generator =
                 .setCodeLength(13)
                 .setGroupNumber(3)
                 .build();
-CodePack[] codes = recoveryCodes.generateCodes(15);
+CodePack[] codes = recoveryCodes.generateDifferentiatedCodes(15);
 // codes = [CodePack Object1, CodePack Object2, CodePack Object3, ...]
 // Object1.actualCode ="tf8xmo3lcslkm"
 // Object1.readableCode="tf8-xmo-3lc-slk-m"
