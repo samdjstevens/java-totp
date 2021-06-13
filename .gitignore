@@ -1,5 +1,7 @@
-.idea
 target
+
+#IntelliJ
+.idea
 *.iml
 
 # Eclipse

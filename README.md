@@ -247,13 +247,37 @@ Thoses settings guarantees recovery codes security (with an entropy of 82 bits) 
 
 ```java
 import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
+import dev.samstevens.totp.recovery.CodePack;
 ...
 // Generate 16 random recovery codes
 RecoveryCodeGenerator recoveryCodes = new RecoveryCodeGenerator();
-String[] codes = recoveryCodes.generateCodes(16);
-// codes = ["tf8i-exmo-3lcb-slkm", "boyv-yq75-z99k-r308", "w045-mq6w-mg1i-q12o", ...]
+CodePack[] codes = recoveryCodes.generateCodes(16);
+// codes = [CodePack Object1, CodePack Object2, CodePack Object3, ...]
+// Object1.actualCode ="tf8iexmo3lcbslkm"
+// Object1.readableCode="tf8i-exmo-3lcb-slkm"
 ```
-
+  
+  
+The user can even define custom length for the Recovery Codes and the Grouping size for the Recovery readable code.  
+The minimum length of the Recovery Code is 7, therefore keeping the minimun entropy of 36 bits, hence generating a fairly secure code.
+   
+  
+```java
+import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
+import dev.samstevens.totp.recovery.CodePack;
+...
+// Generate 15 random recovery codes of length 13 and grouping size of 3 for readable code 
+RecoveryCodeGenerator generator =
+                new RecoveryCodeGenerator
+                .Builder()
+                .setCodeLength(13)
+                .setGroupNumber(3)
+                .build();
+CodePack[] codes = recoveryCodes.generateCodes(15);
+// codes = [CodePack Object1, CodePack Object2, CodePack Object3, ...]
+// Object1.actualCode ="tf8xmo3lcslkm"
+// Object1.readableCode="tf8-xmo-3lc-slk-m"
+```
 
 
 ## Running Tests
