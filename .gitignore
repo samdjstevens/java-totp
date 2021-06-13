@@ -1,5 +1,7 @@
-.idea
 target
+
+#IntelliJ
+.idea
 *.iml
 
 # Eclipse
@@ -7,3 +9,6 @@ target
 .project
 .classpath
 bin
+
+# NetBeans
+nb-configuration.xml
