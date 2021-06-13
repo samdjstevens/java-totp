@@ -60,7 +60,36 @@ public class RecoveryCodeGenerator {
         }
     }
 
-    public CodePack[] generateCodes(int amount) {
+    public String[] generateCodes(int amount) {
+        // Must generate at least one code
+        if (amount < 1) {
+            throw new InvalidParameterException("Amount must be at least 1.");
+        }
+
+        // Create an array and fill with generated codes
+        String[] codes = new String[amount];
+        Arrays.setAll(codes, i -> generateCode());
+
+        return codes;
+    }
+
+    private String generateCode() {
+        final StringBuilder code = new StringBuilder(CODE_LENGTH + (CODE_LENGTH/GROUPS_NBR) - 1);
+        
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            // Append random character from authorized ones
+            code.append(CHARACTERS[random.nextInt(CHARACTERS.length)]);
+            
+            // Split code into groups for increased readability
+            if ((i+1) % GROUPS_NBR == 0 && (i+1) != CODE_LENGTH) {
+                code.append("-");
+            }
+        }
+        
+        return code.toString();
+    }
+    
+    public CodePack[] generateDifferentiatedCodes(int amount) {
         // Must generate at least one code
         if (amount < 1) {
             throw new InvalidParameterException("Amount must be at least 1.");
@@ -68,12 +97,12 @@ public class RecoveryCodeGenerator {
 
         // Create an array and fill with generated codes
         CodePack[] codes = new CodePack[amount];
-        Arrays.setAll(codes, i -> generateCode());
+        Arrays.setAll(codes, i -> generateDifferentiatedCode());
 
         return codes;
     }
 
-    private CodePack generateCode() {
+    private CodePack generateDifferentiatedCode() {
         final StringBuilder code_readable = new StringBuilder(CODE_LENGTH + (CODE_LENGTH/GROUPS_NBR) - 1);
         final StringBuilder code_actual = new StringBuilder(CODE_LENGTH);
 

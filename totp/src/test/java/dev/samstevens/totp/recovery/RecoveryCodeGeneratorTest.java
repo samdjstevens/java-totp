@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,19 @@ public class RecoveryCodeGeneratorTest {
     @Test
     public void testCorrectAmountGenerated() {
         RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
-        CodePack[] codes = generator.generateCodes(16);
+        String[] codes = generator.generateCodes(16);
+
+        // Assert 16 non null codes generated
+        assertEquals(16, codes.length);
+        for (String code : codes) {
+            assertNotNull(code);
+        }
+    }
+
+    @Test
+    public void testCorrectAmountGeneratedDifferentiated() {
+        RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
+        CodePack[] codes = generator.generateDifferentiatedCodes(16);
 
         // Assert 16 non null codes generated
         assertEquals(16, codes.length);
@@ -24,9 +37,20 @@ public class RecoveryCodeGeneratorTest {
     }
 
     @Test
-    public void testCodesMatchReadableFormat() {
+    public void testCodesMatchFormat() {
         RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
-        CodePack[] codes = generator.generateCodes(16);
+        String[] codes = generator.generateCodes(16);
+
+        // Assert each one is the correct format
+        for (String code : codes) {
+            assertTrue(code.matches("[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}"), code);
+        }
+    }
+
+    @Test
+    public void testDifferentiatedCodesMatchReadableFormat() {
+        RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
+        CodePack[] codes = generator.generateDifferentiatedCodes(16);
 
         // Assert each one is the correct format
         for (CodePack code : codes) {
@@ -35,9 +59,9 @@ public class RecoveryCodeGeneratorTest {
     }
 
     @Test
-    public void testCodesMatchActualFormat() {
+    public void testDifferentiatedCodesMatchActualFormat() {
         RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
-        CodePack[] codes = generator.generateCodes(16);
+        CodePack[] codes = generator.generateDifferentiatedCodes(16);
 
         // Assert each one is the correct format
         for (CodePack code : codes) {
@@ -48,7 +72,17 @@ public class RecoveryCodeGeneratorTest {
     @Test
     public void testCodesAreUnique() {
         RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
-        CodePack[] codes = generator.generateCodes(25);
+        String[] codes = generator.generateCodes(25);
+
+        Set<String> uniqueCodes = new HashSet<>(Arrays.asList(codes));
+
+        assertEquals(25, uniqueCodes.size());
+    }
+
+    @Test
+    public void testDifferentiatedCodesAreUnique() {
+        RecoveryCodeGenerator generator = new RecoveryCodeGenerator();
+        CodePack[] codes = generator.generateDifferentiatedCodes(25);
 
         Set<String> uniqueCodes = Arrays.stream(codes).map(map->map.actualCode).collect(Collectors.toSet());
 
@@ -65,7 +99,7 @@ public class RecoveryCodeGeneratorTest {
     }
 
     @Test
-    public void testReadableCodeGrouping(){
+    public void testDifferentiatedReadableCodeGrouping(){
         RecoveryCodeGenerator generator =
                 new RecoveryCodeGenerator
                 .Builder()
@@ -73,7 +107,7 @@ public class RecoveryCodeGeneratorTest {
                 .setGroupNumber(3)
                 .build();
 
-        CodePack codes[] = generator.generateCodes(14);
+        CodePack codes[] = generator.generateDifferentiatedCodes(14);
         for (CodePack code : codes) {
             assertTrue(code.readableCode.matches("[a-z0-9]{3}-[a-z0-9]{3}-[a-z0-9]{3}-[a-z0-9]{3}-[a-z0-9]{1}"), code.readableCode);
         }
