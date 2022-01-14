@@ -52,6 +52,7 @@ dependencies {
 - [Generating QR codes](#generating-a-qr-code)
 - [Verifying one time passwords](#verifying-one-time-passwords)
 - [Using different time providers](#using-different-time-providers)
+- [Sample codes](#sample-codes)
 - [Recovery codes](#recovery-codes)
 
 
@@ -226,6 +227,20 @@ TimeProvider timeProvider = new NtpTimeProvider("pool.ntp.org", 5000);
 dependencies {
   compile 'commons-net:commons-net:3.6'
 }
+```
+
+### Sample Codes
+
+Sample codes can be used to help verify that a totp device has been setup correctly.
+
+```java
+import dev.samstevens.totp.code.SampleCodeGenerator;
+...
+// Generate sample codes
+final SampleCodeGenerator sampleGenerator = new SampleCodeGenerator(
+        new DefaultCodeGenerator(), timeProvider);
+List<String> sampleCodes = sampleGenerator.generateCodes(secret, 2);
+// codes = ["tf8i-exmo-3lcb-slkm", "boyv-yq75-z99k-r308", "w045-mq6w-mg1i-q12o", ...]
 ```
 
 ### Recovery Codes
