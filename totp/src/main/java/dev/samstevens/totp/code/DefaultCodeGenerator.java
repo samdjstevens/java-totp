@@ -1,7 +1,9 @@
 package dev.samstevens.totp.code;
 
 import dev.samstevens.totp.exceptions.CodeGenerationException;
+import org.apache.commons.codec.CodecPolicy;
 import org.apache.commons.codec.binary.Base32;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
@@ -54,7 +56,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
 
         // Create a HMAC-SHA1 signing key from the shared key
-        Base32 codec = new Base32();
+        Base32 codec = new Base32(0, (byte[]) null, false, (byte) '=', CodecPolicy.STRICT);
         byte[] decodedKey = codec.decode(key);
         SecretKeySpec signKey = new SecretKeySpec(decodedKey, algorithm.getHmacAlgorithm());
         Mac mac = Mac.getInstance(algorithm.getHmacAlgorithm());
