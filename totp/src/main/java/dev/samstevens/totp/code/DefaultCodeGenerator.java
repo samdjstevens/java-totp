@@ -56,7 +56,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
 
         // Create a HMAC-SHA1 signing key from the shared key
-        Base32 codec = new Base32(0, (byte[]) null, false, (byte) '=', CodecPolicy.STRICT);
+        Base32 codec = new Base32(0, null, false, (byte) '=', CodecPolicy.STRICT);
         byte[] decodedKey = codec.decode(key);
         SecretKeySpec signKey = new SecretKeySpec(decodedKey, algorithm.getHmacAlgorithm());
         Mac mac = Mac.getInstance(algorithm.getHmacAlgorithm());
